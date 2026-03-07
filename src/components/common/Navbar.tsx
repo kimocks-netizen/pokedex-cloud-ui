@@ -76,7 +76,39 @@ const Navbar = () => {
               {isAdmin && (
                 <Link href="/admin/ingestion">
                   <Button variant="ghost" className="text-gray-900 dark:text-white hover:bg-gray-900/10 dark:hover:bg-white/10">
-                    Admin
+                    Ingestion
+                  </Button>
+                </Link>
+              )}
+              
+              {isAdmin && (
+                <Link href="/admin/users">
+                  <Button variant="ghost" className="text-gray-900 dark:text-white hover:bg-gray-900/10 dark:hover:bg-white/10">
+                    Users
+                  </Button>
+                </Link>
+              )}
+              
+              {isAdmin && (
+                <Link href="/admin/dlq">
+                  <Button variant="ghost" className="text-gray-900 dark:text-white hover:bg-gray-900/10 dark:hover:bg-white/10">
+                    DLQ
+                  </Button>
+                </Link>
+              )}
+              
+              {isAdmin && (
+                <Link href="/admin/cron-jobs">
+                  <Button variant="ghost" className="text-gray-900 dark:text-white hover:bg-gray-900/10 dark:hover:bg-white/10">
+                    Cron Jobs
+                  </Button>
+                </Link>
+              )}
+              
+              {isAdmin && (
+                <Link href="/admin/system-health">
+                  <Button variant="ghost" className="text-gray-900 dark:text-white hover:bg-gray-900/10 dark:hover:bg-white/10">
+                    System Health
                   </Button>
                 </Link>
               )}
