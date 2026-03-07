@@ -1,16 +1,10 @@
-import { use } from 'react';
 import Image from 'next/image';
 import { Database } from 'lucide-react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import Mask from '@/components/Mask';
-import LoginFormClient from './LoginFormClient';
+import RegisterFormClient from './RegisterFormClient';
 
-interface LoginPageProps {
-  searchParams: Promise<{ success?: string }>;
-}
-
-export default async function LoginPage({ searchParams }: LoginPageProps) {
-  const params = await searchParams;
+export default function RegisterPage() {
   return (
     <div className="min-h-screen relative overflow-hidden">
       <div className="absolute inset-0">
@@ -21,7 +15,7 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
           priority
           quality={90}
           className="object-cover dark:block hidden"
-        />
+        /> 
         <Image
           src="/bg-images/bg-light.png"
           alt="Background"
@@ -48,10 +42,10 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
             </div>
             <div className="space-y-6">
               <h2 className="text-5xl font-bold leading-tight text-gray-900 dark:text-white drop-shadow-lg text-center">
-                Secure Access
+                Join Us Today
               </h2>
               <p className="text-xl text-gray-800 dark:text-gray-200 drop-shadow-lg text-center">
-                Sign in to manage your Pokémon data pipeline
+                Create an account to start managing your Pokémon data
               </p>
             </div>
           </div>
@@ -62,13 +56,13 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
                 <div className="mx-auto w-16 h-16 p-3 bg-blue-600 rounded-full flex items-center justify-center">
                   <Database className="w-8 h-8 text-white" />
                 </div>
-                <CardTitle className="text-2xl font-bold">Welcome Back</CardTitle>
+                <CardTitle className="text-2xl font-bold">Create Account</CardTitle>
                 <CardDescription className="text-sm">
-                  Sign in to access your dashboard
+                  Join PokéDex today
                 </CardDescription>
               </CardHeader>
               <CardContent className="px-6 pb-6">
-                <LoginFormClient success={params.success} />
+                <RegisterFormClient />
               </CardContent>
             </Card>
           </div>

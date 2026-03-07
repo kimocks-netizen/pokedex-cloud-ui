@@ -1,21 +1,34 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
+const publicRoutes = ['/login', '/register'];
+const protectedRoutes = ['/dashboard', '/pokemon', '/admin', '/profile'];
+
 export function middleware(request: NextRequest) {
-  const token = request.cookies.get('auth-token')?.value;
   const { pathname } = request.nextUrl;
+  const authToken = request.cookies.get('auth_token')?.value;
 
-  // Protected routes
-  const protectedRoutes = ['/reference-old-pages/documents', '/reference-old-pages/results'];
+  // Check if route is protected
   const isProtectedRoute = protectedRoutes.some(route => pathname.startsWith(route));
+  const isPublicRoute = publicRoutes.some(route => pathname.startsWith(route));
 
-  if (isProtectedRoute && !token) {
-    return NextResponse.redirect(new URL('/login', request.url));
+  // Redirect to login if accessing protected route without auth
+  if (isProtectedRoute && !authToken) {
+    const loginUrl = new URL('/login', request.url);
+    return NextResponse.redirect(loginUrl);
+  }
+
+  // Redirect to dashboard if accessing public route with auth
+  if (isPublicRoute && authToken) {
+    const dashboardUrl = new URL('/dashboard', request.url);
+    return NextResponse.redirect(dashboardUrl);
   }
 
   return NextResponse.next();
 }
 
 export const config = {
-  matcher: ['/reference-old-pages/:path*'],
+  matcher: [
+    '/((?!api|_next/static|_next/image|favicon.ico).*)',
+  ],
 };
