@@ -176,7 +176,7 @@ export default function PokemonListClient({ initialPokemon, total, page, totalPa
                 </TableHeader>
                 <TableBody>
                   {initialPokemon.map((pokemon) => (
-                    <TableRow key={pokemon.id} className="bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors">
+                    <TableRow key={pokemon.id} className="bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors cursor-pointer" onClick={() => router.push(`/pokemon/${pokemon.id}`)}>
                       <TableCell>
                         <div className="relative w-12 h-12 rounded-full overflow-hidden bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-700 dark:to-gray-800 p-1">
                           <Image src={pokemon.sprite} alt={pokemon.name} fill className="object-contain" unoptimized />

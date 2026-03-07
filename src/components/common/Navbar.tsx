@@ -58,23 +58,27 @@ const Navbar = () => {
             </Link>
             
             <div className="hidden md:flex items-center space-x-4">
-              <Link href="/">
-                <Button variant="ghost" className="text-gray-900 dark:text-white hover:bg-gray-900/10 dark:hover:bg-white/10">
-                  Home
-                </Button>
-              </Link>
-             
+              {isAuthenticated && (
+                <Link href="/dashboard">
+                  <Button variant="ghost" className="text-gray-900 dark:text-white hover:bg-gray-900/10 dark:hover:bg-white/10">
+                    Dashboard
+                  </Button>
+                </Link>
+              )}
+              
               <Link href="/pokemon">
                 <Button variant="ghost" className="text-gray-900 dark:text-white hover:bg-gray-900/10 dark:hover:bg-white/10">
                   Pokémon
                 </Button>
               </Link>
-              <Link href="/health">
-                <Button variant="ghost" className="text-gray-900 dark:text-white hover:bg-gray-900/10 dark:hover:bg-white/10">
-                  <Activity className="mr-2 h-4 w-4" />
-                  System Health
-                </Button>
-              </Link>
+              
+              {isAuthenticated && (
+                <Link href="/profile">
+                  <Button variant="ghost" className="text-gray-900 dark:text-white hover:bg-gray-900/10 dark:hover:bg-white/10">
+                    Profile
+                  </Button>
+                </Link>
+              )}
               
               {isAuthenticated ? (
                 <Button 
@@ -138,23 +142,27 @@ const Navbar = () => {
             className="fixed top-16 left-0 right-0 z-50 backdrop-blur-md bg-white/90 dark:bg-slate-900/90 border-b border-white/20 dark:border-slate-700/50 shadow-lg md:hidden"
           >
             <div className="flex flex-col px-4 py-4 space-y-2">
-              <Link href="/" onClick={() => setIsOpen(false)}>
-                <Button variant="ghost" className="w-full text-gray-900 dark:text-white hover:bg-gray-900/10 dark:hover:bg-white/10 justify-start">
-                  Home
-                </Button>
-              </Link>
+              {isAuthenticated && (
+                <Link href="/dashboard" onClick={() => setIsOpen(false)}>
+                  <Button variant="ghost" className="w-full text-gray-900 dark:text-white hover:bg-gray-900/10 dark:hover:bg-white/10 justify-start">
+                    Dashboard
+                  </Button>
+                </Link>
+              )}
             
               <Link href="/pokemon" onClick={() => setIsOpen(false)}>
                 <Button variant="ghost" className="w-full text-gray-900 dark:text-white hover:bg-gray-900/10 dark:hover:bg-white/10 justify-start">
                   Pokémon
                 </Button>
               </Link>
-              <Link href="/health" onClick={() => setIsOpen(false)}>
-                <Button variant="ghost" className="w-full text-gray-900 dark:text-white hover:bg-gray-900/10 dark:hover:bg-white/10 justify-start">
-                  <Activity className="mr-2 h-4 w-4" />
-                  System Health
-                </Button>
-              </Link>
+              
+              {isAuthenticated && (
+                <Link href="/profile" onClick={() => setIsOpen(false)}>
+                  <Button variant="ghost" className="w-full text-gray-900 dark:text-white hover:bg-gray-900/10 dark:hover:bg-white/10 justify-start">
+                    Profile
+                  </Button>
+                </Link>
+              )}
               
               {isAuthenticated ? (
                 <Button 

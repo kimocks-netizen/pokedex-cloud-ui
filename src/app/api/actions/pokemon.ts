@@ -164,3 +164,49 @@ export async function getPokemonTypes(): Promise<ApiResponse<string[]>> {
     };
   }
 }
+
+export async function getPokemonById(id: number): Promise<ApiResponse<Pokemon>> {
+  try {
+    const cookieStore = await cookies();
+    const token = cookieStore.get('auth_token')?.value;
+
+    if (!token) {
+      return {
+        success: false,
+        error: { message: 'Authentication required', code: 'UNAUTHORIZED' },
+      };
+    }
+
+    const response = await fetch(`${API_URL}/pokemon/${id}`, {
+      headers: { Authorization: `Bearer ${token}` },
+      cache: 'no-store',
+    });
+
+    if (!response.ok) {
+      return {
+        success: false,
+        error: { message: 'Pokemon not found', code: 'NOT_FOUND' },
+      };
+    }
+
+    const result = await response.json();
+
+    if (!result.success || !result.data) {
+      return {
+        success: false,
+        error: { message: 'Invalid response', code: 'SYSTEM_ERROR' },
+      };
+    }
+
+    return {
+      success: true,
+      data: transformPokemon(result.data),
+    };
+  } catch (error) {
+    console.error('Pokemon detail API error:', error);
+    return {
+      success: false,
+      error: { message: 'Failed to fetch Pokemon', code: 'SYSTEM_ERROR' },
+    };
+  }
+}
