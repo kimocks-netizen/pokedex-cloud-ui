@@ -3,6 +3,7 @@ import type { NextRequest } from 'next/server';
 
 const publicRoutes = ['/login', '/register'];
 const protectedRoutes = ['/dashboard', '/pokemon', '/admin', '/profile'];
+const homeRoute = '/';
 
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
@@ -11,6 +12,7 @@ export function middleware(request: NextRequest) {
   // Check if route is protected
   const isProtectedRoute = protectedRoutes.some(route => pathname.startsWith(route));
   const isPublicRoute = publicRoutes.some(route => pathname.startsWith(route));
+  const isHomeRoute = pathname === homeRoute;
 
   // Redirect to login if accessing protected route without auth
   if (isProtectedRoute && !authToken) {
@@ -18,8 +20,8 @@ export function middleware(request: NextRequest) {
     return NextResponse.redirect(loginUrl);
   }
 
-  // Redirect to dashboard if accessing public route with auth
-  if (isPublicRoute && authToken) {
+  // Redirect to dashboard if accessing public routes or home with auth
+  if ((isPublicRoute || isHomeRoute) && authToken) {
     const dashboardUrl = new URL('/dashboard', request.url);
     return NextResponse.redirect(dashboardUrl);
   }

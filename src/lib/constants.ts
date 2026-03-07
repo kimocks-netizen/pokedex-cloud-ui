@@ -1,18 +1,20 @@
-// src/lib/constants.ts
-export const API_ENDPOINTS = {
-    UPLOAD: '/api/upload',
-    RESULTS: '/api/results',
-    HEALTH: '/api/health',
-  };
-  
-  export const JOB_STATUS = {
-    IDLE: 'idle',
-    PROCESSING: 'processing',
-    COMPLETED: 'completed',
-    FAILED: 'failed',
-  } as const;
-  
-  export const PROCESSING_METHODS = {
-    STANDARD: 'standard',
-    AI: 'ai',
-  } as const;
+export const TYPE_COLORS: Record<string, string> = {
+  normal: 'bg-gray-500 text-white',
+  fire: 'bg-orange-500 text-white',
+  water: 'bg-blue-600 text-white',
+  electric: 'bg-yellow-500 text-gray-900',
+  grass: 'bg-green-600 text-white',
+  ice: 'bg-cyan-500 text-white',
+  fighting: 'bg-red-700 text-white',
+  poison: 'bg-purple-600 text-white',
+  ground: 'bg-amber-700 text-white',
+  flying: 'bg-indigo-500 text-white',
+  psychic: 'bg-pink-600 text-white',
+  bug: 'bg-lime-600 text-white',
+  rock: 'bg-stone-700 text-white',
+  ghost: 'bg-purple-800 text-white',
+  dragon: 'bg-indigo-700 text-white',
+  dark: 'bg-gray-800 text-white',
+  steel: 'bg-slate-600 text-white',
+  fairy: 'bg-pink-400 text-white',
+};
