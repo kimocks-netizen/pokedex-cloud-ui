@@ -28,8 +28,8 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   }, [pathname]);
 
   // Auth pages and home page that should not have layout wrapper
-  const fullScreenPages = ['/login', '/register', '/', '/pokemon', '/dashboard'];
-  const isFullScreenPage = fullScreenPages.includes(pathname) || pathname.startsWith('/pokemon') || pathname.startsWith('/dashboard');
+  const fullScreenPages = ['/login', '/register', '/', '/pokemon', '/dashboard', '/profile'];
+  const isFullScreenPage = fullScreenPages.includes(pathname) || pathname.startsWith('/pokemon') || pathname.startsWith('/dashboard') || pathname.startsWith('/profile');
 
   // Public pages where footer should be shown
   const publicPages = ['/health'];
