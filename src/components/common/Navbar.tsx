@@ -21,6 +21,7 @@ const Navbar = () => {
   // If user is on a protected route, they must be authenticated (middleware ensures this)
   const protectedRoutes = ['/dashboard', '/pokemon', '/admin', '/profile'];
   const isAuthenticated = protectedRoutes.some(route => pathname.startsWith(route));
+  const isAdmin = pathname.startsWith('/admin');
 
   const handleLogout = async () => {
     await logout();
@@ -71,6 +72,14 @@ const Navbar = () => {
                   Pokémon
                 </Button>
               </Link>
+              
+              {isAdmin && (
+                <Link href="/admin/ingestion">
+                  <Button variant="ghost" className="text-gray-900 dark:text-white hover:bg-gray-900/10 dark:hover:bg-white/10">
+                    Admin
+                  </Button>
+                </Link>
+              )}
               
               {isAuthenticated && (
                 <Link href="/profile">
