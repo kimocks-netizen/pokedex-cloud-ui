@@ -1,0 +1,91 @@
+document-processing-app-frontend/
+├── src/
+│   ├── app/                      # Next.js App Router pages
+│   │   ├── layout.tsx            # Root layout with theme provider
+│   │   ├── page.tsx              # Home page with hero section
+│   │   ├── globals.css           # Global Tailwind CSS styles
+│   │   ├── favicon.ico           # App favicon
+│   │   ├── upload/
+│   │   │   └── page.tsx          # Document upload form
+│   │   ├── documents/
+│   │   │   └── page.tsx          # Document history view
+│   │   ├── results/
+│   │   │   └── page.tsx          # Processing results with comparison
+│   │   ├── report/
+│   │   │   └── page.tsx          # Analytics dashboard
+│   │   └── api/                  # API routes
+│   │       ├── health/
+│   │       │   └── route.ts      # Health check endpoint
+│   │       └── upload/
+│   │           └── route.ts      # Upload endpoint
+│   │
+│   ├── components/               # Reusable UI components
+│   │   ├── common/               # Shared components
+│   │   │   ├── Navbar.tsx        # Navigation with mobile menu
+│   │   │   ├── Footer.tsx        # Application footer
+│   │   │   ├── ProgressBar.tsx   # Progress indicators
+│   │   │   └── ErrorBanner.tsx   # Error display
+│   │   ├── forms/                # Form components
+│   │   │   └── UploadForm.tsx    # Document upload form
+│   │   ├── results/              # Results display components
+│   │   │   ├── StandardPanel.tsx # Standard extraction results
+│   │   │   ├── AIPanel.tsx       # AI extraction results
+│   │   │   └── CompareView.tsx   # Side-by-side comparison
+│   │   ├── ui/                   # Shadcn UI components
+│   │   │   ├── button.tsx        # Button component
+│   │   │   ├── card.tsx          # Card component
+│   │   │   ├── input.tsx         # Input component
+│   │   │   └── tabs.tsx          # Tabs component
+│   │   ├── Modal.tsx             # Reusable modal component
+│   │   └── Layout.tsx            # Page layout wrapper
+│   │
+│   ├── store/                    # Zustand state management
+│   │   ├── index.ts              # Store configuration
+│   │   ├── hooks.ts              # Typed store hooks
+│   │   └── slices/               # State slices
+│   │       ├── jobSlice.ts       # Job processing state
+│   │       ├── resultsSlice.ts   # Results and filtering state
+│   │       ├── themeSlice.ts     # Theme preferences
+│   │       └── uploadSlice.ts    # Upload progress state
+│   │
+│   ├── hooks/                    # Custom React hooks
+│   │   ├── useSupabase.ts        # Supabase client hook
+│   │   ├── useThemeToggle.ts     # Theme switching hook
+│   │   └── useWebSocket.ts       # WebSocket connection hook
+│   │
+│   ├── layout/                   # Layout and theme configuration
+│   │   ├── ThemeContext.tsx      # Theme context provider
+│   │   ├── Providers.tsx         # App providers wrapper
+│   │   └── palettes.ts           # Color palette definitions
+│   │
+│   ├── lib/                      # Utility libraries
+│   │   ├── api.ts                # API client functions
+│   │   ├── constants.ts          # Application constants
+│   │   ├── mappers.ts            # Data transformation utilities
+│   │   └── utils.ts              # General utility functions
+│   │
+│   └── types/                    # TypeScript type definitions
+│       └── html2pdf.d.ts         # html2pdf.js type declarations
+│
+├── public/                       # Static assets
+│   ├── file.svg                  # File icon
+│   ├── globe.svg                 # Globe icon
+│   ├── next.svg                  # Next.js logo
+│   ├── vercel.svg                # Vercel logo
+│   └── window.svg                # Window icon
+│
+├── Dockerfile                    # Docker configuration
+├── next.config.js                # Next.js configuration
+├── tailwind.config.js            # Tailwind CSS configuration
+├── postcss.config.js             # PostCSS configuration
+├── tsconfig.json                 # TypeScript configuration
+├── eslint.config.mjs             # ESLint configuration
+├── package.json                  # Dependencies and scripts
+├── package-lock.json             # Locked dependency versions
+├── env.local                     # Local environment variables
+├── env                           # Environment file
+├── next-env.d.ts                # Next.js type definitions
+├── .gitignore                    # Git ignore rules
+├── plans.txt                     # Development plans
+├── README.md                     # Comprehensive project documentation
+└── tree.txt                      # This file structure
