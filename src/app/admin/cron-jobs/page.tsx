@@ -4,6 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Clock, CheckCircle, XCircle, Calendar, PlayCircle } from 'lucide-react';
 import CronJobFormClient from '@/components/admin/CronJobFormClient';
 import DeleteJobButton from '@/components/admin/DeleteJobButton';
+import ToggleJobButton from '@/components/admin/ToggleJobButton';
 import Image from 'next/image';
 
 const JOB_DESCRIPTIONS: Record<string, string> = {
@@ -92,7 +93,10 @@ export default async function CronJobsPage() {
                           )}
                         </div>
                       </div>
-                      <DeleteJobButton jobId={job.id} />
+                      <div className="flex items-center gap-2">
+                        <ToggleJobButton jobId={job.id} enabled={job.enabled} />
+                        <DeleteJobButton jobId={job.id} />
+                      </div>
                     </div>
                   </div>
                 ))}

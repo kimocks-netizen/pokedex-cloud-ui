@@ -47,6 +47,30 @@ export async function createCronJob(jobType: string, schedule: string) {
   }
 }
 
+export async function toggleCronJob(jobId: string) {
+  try {
+    const cookieStore = await cookies();
+    const token = cookieStore.get('auth_token')?.value;
+    
+    const response = await fetch(`${getApiUrl()}/jobs/${jobId}/toggle`, {
+      method: 'PATCH',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+      },
+    });
+
+    const result = await response.json();
+    
+    if (result.success) {
+      revalidatePath('/admin/cron-jobs');
+    }
+    
+    return result;
+  } catch (error) {
+    return { success: false, error: 'Failed to toggle cron job' };
+  }
+}
+
 export async function deleteCronJob(jobId: string) {
   try {
     const cookieStore = await cookies();
