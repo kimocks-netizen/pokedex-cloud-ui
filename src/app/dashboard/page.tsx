@@ -1,16 +1,133 @@
-import { Construction } from 'lucide-react';
+import { getDashboardStats } from '@/app/api/actions/dashboard';
+import { isSuccessResponse } from '@/lib/api-responses';
+import { Database, Activity, Heart, TrendingUp } from 'lucide-react';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import Link from 'next/link';
+import { Button } from '@/components/ui/button';
+import Image from 'next/image';
 
-export default function DashboardPage() {
+export default async function DashboardPage() {
+  const statsResponse = await getDashboardStats();
+  const stats = isSuccessResponse(statsResponse) ? statsResponse.data : null;
+
   return (
-    <div className="min-h-[calc(100vh-200px)] flex items-center justify-center">
-      <div className="text-center space-y-6 p-8">
-        <Construction className="w-24 h-24 mx-auto text-blue-600 dark:text-blue-400" />
-        <h1 className="text-4xl font-bold text-gray-900 dark:text-white">
-          Coming Soon
-        </h1>
-        <p className="text-lg text-gray-600 dark:text-gray-400 max-w-md">
-          The dashboard is currently under construction. Check back soon for exciting features!
-        </p>
+    <div className="min-h-screen relative">
+      <Image src="/bg-images/bg-light.png" alt="" fill className="object-cover dark:hidden" priority />
+      <Image src="/bg-images/bg-dark.png" alt="" fill className="object-cover hidden dark:block" priority />
+      
+      <div className="relative z-10 max-w-7xl mx-auto p-8">
+        <div className="mb-8">
+          <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-2">Dashboard</h1>
+          <p className="text-gray-600 dark:text-gray-400">Welcome back! Here's your Pokémon system overview</p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+          <Card className="bg-white/95 dark:bg-gray-800/95 backdrop-blur-lg border-2 border-blue-200 dark:border-blue-800 rounded-2xl">
+            <CardHeader className="pb-3">
+              <CardTitle className="text-sm font-medium text-gray-600 dark:text-gray-400 flex items-center gap-2">
+                <Database className="h-4 w-4" />
+                Total Pokémon
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="text-3xl font-bold text-gray-900 dark:text-white">
+                {stats?.totalPokemon.toLocaleString() || '0'}
+              </div>
+              <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">In database</p>
+            </CardContent>
+          </Card>
+
+          <Card className="bg-white/95 dark:bg-gray-800/95 backdrop-blur-lg border-2 border-green-200 dark:border-green-800 rounded-2xl">
+            <CardHeader className="pb-3">
+              <CardTitle className="text-sm font-medium text-gray-600 dark:text-gray-400 flex items-center gap-2">
+                <Activity className="h-4 w-4" />
+                Recent Ingestions
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="text-3xl font-bold text-gray-900 dark:text-white">
+                {stats?.recentIngestions || '0'}
+              </div>
+              <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">Last 24 hours</p>
+            </CardContent>
+          </Card>
+
+          <Card className="bg-white/95 dark:bg-gray-800/95 backdrop-blur-lg border-2 border-purple-200 dark:border-purple-800 rounded-2xl">
+            <CardHeader className="pb-3">
+              <CardTitle className="text-sm font-medium text-gray-600 dark:text-gray-400 flex items-center gap-2">
+                <Heart className="h-4 w-4" />
+                System Health
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="text-3xl font-bold capitalize text-gray-900 dark:text-white">
+                {stats?.systemHealth || 'Unknown'}
+              </div>
+              <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">All systems operational</p>
+            </CardContent>
+          </Card>
+
+          <Card className="bg-white/95 dark:bg-gray-800/95 backdrop-blur-lg border-2 border-orange-200 dark:border-orange-800 rounded-2xl">
+            <CardHeader className="pb-3">
+              <CardTitle className="text-sm font-medium text-gray-600 dark:text-gray-400 flex items-center gap-2">
+                <TrendingUp className="h-4 w-4" />
+                Active Users
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="text-3xl font-bold text-gray-900 dark:text-white">1</div>
+              <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">Currently online</p>
+            </CardContent>
+          </Card>
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <Card className="bg-white/95 dark:bg-gray-800/95 backdrop-blur-lg border-2 border-gray-200 dark:border-gray-700 rounded-2xl">
+            <CardHeader className="border-b border-gray-200 dark:border-gray-700">
+              <CardTitle className="text-xl font-bold text-gray-900 dark:text-white">Quick Actions</CardTitle>
+            </CardHeader>
+            <CardContent className="pt-6">
+              <div className="space-y-3">
+                <Link href="/pokemon">
+                  <Button className="w-full justify-start" variant="outline">
+                    <Database className="mr-2 h-4 w-4" />
+                    Browse Pokémon Database
+                  </Button>
+                </Link>
+                <Link href="/profile">
+                  <Button className="w-full justify-start" variant="outline">
+                    <Activity className="mr-2 h-4 w-4" />
+                    View Profile
+                  </Button>
+                </Link>
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card className="bg-white/95 dark:bg-gray-800/95 backdrop-blur-lg border-2 border-gray-200 dark:border-gray-700 rounded-2xl">
+            <CardHeader className="border-b border-gray-200 dark:border-gray-700">
+              <CardTitle className="text-xl font-bold text-gray-900 dark:text-white">System Status</CardTitle>
+            </CardHeader>
+            <CardContent className="pt-6">
+              <div className="space-y-4">
+                <div className="flex items-center justify-between">
+                  <span className="text-sm text-gray-600 dark:text-gray-400">API Status</span>
+                  <span className="text-sm font-semibold text-green-600 dark:text-green-400">Online</span>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="text-sm text-gray-600 dark:text-gray-400">Database</span>
+                  <span className="text-sm font-semibold text-green-600 dark:text-green-400">Connected</span>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="text-sm text-gray-600 dark:text-gray-400">Last Check</span>
+                  <span className="text-sm font-semibold text-gray-900 dark:text-white">
+                    {stats?.lastHealthCheck ? new Date(stats.lastHealthCheck).toLocaleTimeString() : 'N/A'}
+                  </span>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
       </div>
     </div>
   );

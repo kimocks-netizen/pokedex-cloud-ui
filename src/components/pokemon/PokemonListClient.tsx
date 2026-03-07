@@ -72,7 +72,7 @@ export default function PokemonListClient({ initialPokemon, total, page, totalPa
   const hasFilters = searchValue || currentType || currentSort !== 'id';
 
   return (
-    <Card className="bg-white/95 dark:bg-gray-800/95 backdrop-blur-lg border-2 border-gray-200 dark:border-gray-700 shadow-xl">
+    <Card className="bg-white/95 dark:bg-gray-800/95 backdrop-blur-lg border-2 border-gray-200 dark:border-gray-700 shadow-xl rounded-2xl">
       <CardHeader className="pb-4 border-b border-gray-200 dark:border-gray-700">
         <div className="flex justify-between items-center">
           <div>
@@ -144,7 +144,7 @@ export default function PokemonListClient({ initialPokemon, total, page, totalPa
 
         {!isPending && initialPokemon.length > 0 && (
           <>
-            <div className="rounded-lg border-2 border-gray-200 dark:border-gray-700 overflow-hidden">
+            <div className="rounded-xl border-2 border-gray-200 dark:border-gray-700 overflow-hidden">
               <Table>
                 <TableHeader className="bg-gray-50 dark:bg-gray-900/50">
                   <TableRow className="hover:bg-gray-50 dark:hover:bg-gray-900/50">
