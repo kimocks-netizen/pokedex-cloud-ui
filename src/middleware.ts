@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
 const publicRoutes = ['/login', '/register'];
-const protectedRoutes = ['/dashboard', '/pokemon', '/admin', '/profile'];
+const protectedRoutes = ['/overview', '/pokemon', '/admin', '/profile'];
 const homeRoute = '/';
 
 export function middleware(request: NextRequest) {
@@ -20,10 +20,10 @@ export function middleware(request: NextRequest) {
     return NextResponse.redirect(loginUrl);
   }
 
-  // Redirect to dashboard if accessing public routes or home with auth
+  // Redirect to overview if accessing public routes or home with auth
   if ((isPublicRoute || isHomeRoute) && authToken) {
-    const dashboardUrl = new URL('/dashboard', request.url);
-    return NextResponse.redirect(dashboardUrl);
+    const overviewUrl = new URL('/overview', request.url);
+    return NextResponse.redirect(overviewUrl);
   }
 
   return NextResponse.next();

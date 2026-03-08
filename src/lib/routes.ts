@@ -4,7 +4,7 @@ export const ROUTES = {
     LOGIN: '/login',
     REGISTER: '/register',
   },
-  DASHBOARD: '/dashboard',
+  OVERVIEW: '/overview',
   POKEMON: {
     LIST: '/pokemon',
     DETAIL: (id: number) => `/pokemon/${id}`,

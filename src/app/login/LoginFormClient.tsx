@@ -68,7 +68,7 @@ export default function LoginFormClient({ success }: LoginFormProps) {
 
       if (isSuccessResponse(response)) {
         toast.success('Login successful!');
-        router.push(ROUTES.DASHBOARD);
+        router.push(ROUTES.OVERVIEW);
       } else {
         const errorMsg = getErrorMessage(response);
         setFormError(errorMsg);

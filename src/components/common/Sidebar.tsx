@@ -23,7 +23,7 @@ import {
 import { cn } from '@/lib/utils';
 
 const navItems = [
-  { href: '/dashboard', icon: LayoutDashboard, label: 'Dashboard' },
+  { href: '/overview', icon: LayoutDashboard, label: 'Overview' },
   { href: '/pokemon', icon: Database, label: 'Pokémon' },
 ];
 
