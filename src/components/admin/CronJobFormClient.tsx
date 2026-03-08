@@ -12,6 +12,7 @@ export default function CronJobFormClient() {
   const [jobType, setJobType] = useState('pokemon_ingestion');
   const [scheduleType, setScheduleType] = useState<ScheduleType>('minutes');
   const [intervalValue, setIntervalValue] = useState('5');
+  const [pokemonLimit, setPokemonLimit] = useState('151');
   const [customSchedule, setCustomSchedule] = useState('');
   const [loading, setLoading] = useState(false);
 
@@ -56,12 +57,13 @@ export default function CronJobFormClient() {
     }
 
     setLoading(true);
-    const result = await createCronJob(jobType, cronExpression);
+    const result = await createCronJob(jobType, cronExpression, parseInt(pokemonLimit));
     setLoading(false);
 
     if (result.success) {
       toast.success(`Cron job scheduled: ${getScheduleDescription()}`);
       setIntervalValue('5');
+      setPokemonLimit('151');
       setCustomSchedule('');
       window.location.reload();
     } else {
@@ -99,6 +101,20 @@ export default function CronJobFormClient() {
           <option value="daily">Daily at Specific Hour</option>
           <option value="custom">Custom Cron Expression</option>
         </select>
+      </div>
+
+      <div>
+        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+          Pokemon Limit (1-1000)
+        </label>
+        <input
+          type="number"
+          min="1"
+          max="1000"
+          value={pokemonLimit}
+          onChange={(e) => setPokemonLimit(e.target.value)}
+          className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+        />
       </div>
 
       {scheduleType !== 'custom' && (

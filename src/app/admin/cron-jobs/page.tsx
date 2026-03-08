@@ -1,11 +1,13 @@
 import { getCronJobs } from '@/app/api/actions/cron';
 import { isSuccessResponse } from '@/lib/api-responses';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Clock, CheckCircle, XCircle, Calendar, PlayCircle } from 'lucide-react';
+import { Clock, CheckCircle, XCircle, Calendar, PlayCircle, ChevronLeft, ChevronRight } from 'lucide-react';
 import CronJobFormClient from '@/components/admin/CronJobFormClient';
 import DeleteJobButton from '@/components/admin/DeleteJobButton';
 import ToggleJobButton from '@/components/admin/ToggleJobButton';
 import { AppLayout } from '@/components/layout/AppLayout';
+import Link from 'next/link';
+import { Button } from '@/components/ui/button';
 
 export const dynamic = 'force-dynamic';
 
@@ -14,10 +16,26 @@ const JOB_DESCRIPTIONS: Record<string, string> = {
   'data_cleanup': 'Clean up old or invalid data from the database',
 };
 
-export default async function CronJobsPage() {
+interface PageProps {
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+}
+
+export default async function CronJobsPage({ searchParams }: PageProps) {
+  const params = await searchParams;
+  const page = Number(params.page) || 1;
+  const limit = 4;
+  
   const cronResponse = await getCronJobs();
-  const jobs = isSuccessResponse(cronResponse) ? cronResponse.data.jobs : [];
-  const total = isSuccessResponse(cronResponse) ? cronResponse.data.total : 0;
+  console.log('Cron response:', JSON.stringify(cronResponse, null, 2));
+  const allJobs = isSuccessResponse(cronResponse) ? cronResponse.data.jobs : [];
+  const total = allJobs.length;
+  
+  const startIndex = (page - 1) * limit;
+  const endIndex = startIndex + limit;
+  const jobs = allJobs.slice(startIndex, endIndex);
+  const totalPages = Math.ceil(total / limit);
+  
+  console.log('Jobs:', jobs, 'Total:', total);
 
   return (
     <AppLayout>
@@ -99,6 +117,40 @@ export default async function CronJobsPage() {
                     </div>
                   </div>
                 ))}
+              </div>
+            )}
+            
+            {totalPages > 1 && (
+              <div className="flex items-center justify-between mt-6 pt-4 border-t border-gray-200 dark:border-gray-700">
+                <p className="text-sm font-semibold text-gray-700 dark:text-gray-300">
+                  Showing {startIndex + 1}-{Math.min(endIndex, total)} of {total} jobs
+                </p>
+                
+                <div className="flex items-center gap-2">
+                  <Link href={`/admin/cron-jobs?page=${page - 1}`}>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      disabled={page <= 1}
+                      className="rounded-full"
+                    >
+                      <ChevronLeft className="h-4 w-4" />
+                    </Button>
+                  </Link>
+                  <span className="px-4 py-2 text-sm font-bold text-gray-900 dark:text-white">
+                    {page} / {totalPages}
+                  </span>
+                  <Link href={`/admin/cron-jobs?page=${page + 1}`}>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      disabled={page >= totalPages}
+                      className="rounded-full"
+                    >
+                      <ChevronRight className="h-4 w-4" />
+                    </Button>
+                  </Link>
+                </div>
               </div>
             )}
             </CardContent>

@@ -21,7 +21,7 @@ export async function getCronJobs() {
   }
 }
 
-export async function createCronJob(jobType: string, schedule: string) {
+export async function createCronJob(jobType: string, schedule: string, pokemonLimit: number = 151) {
   try {
     const cookieStore = await cookies();
     const token = cookieStore.get('auth_token')?.value;
@@ -32,7 +32,7 @@ export async function createCronJob(jobType: string, schedule: string) {
         'Authorization': `Bearer ${token}`,
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ jobType, schedule }),
+      body: JSON.stringify({ jobType, schedule, pokemonLimit }),
     });
 
     const result = await response.json();

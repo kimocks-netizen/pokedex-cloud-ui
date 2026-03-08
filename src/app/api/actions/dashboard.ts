@@ -28,7 +28,7 @@ export async function getDashboardStats(): Promise<ApiResponse<DashboardStats>> 
       };
     }
 
-    const [pokemonRes, healthRes] = await Promise.all([
+    const [pokemonRes, healthRes, ingestionRes] = await Promise.all([
       fetch(`${API_URL}/pokemon?page=1&limit=1`, {
         headers: { Authorization: `Bearer ${token}` },
         cache: 'no-store',
@@ -37,14 +37,24 @@ export async function getDashboardStats(): Promise<ApiResponse<DashboardStats>> 
         headers: { Authorization: `Bearer ${token}` },
         cache: 'no-store',
       }),
+      fetch(`${API_URL}/ingestion/jobs?page=1&limit=100`, {
+        headers: { Authorization: `Bearer ${token}` },
+        cache: 'no-store',
+      }),
     ]);
 
     const pokemonData = await pokemonRes.json();
     const healthData = await healthRes.json();
+    const ingestionData = await ingestionRes.json();
+
+    const last24Hours = new Date(Date.now() - 24 * 60 * 60 * 1000);
+    const recentJobs = ingestionData.data?.items?.filter((job: any) => 
+      new Date(job.createdAt) > last24Hours
+    ) || [];
 
     const stats: DashboardStats = {
       totalPokemon: pokemonData.data?.pagination?.total || 0,
-      recentIngestions: 0,
+      recentIngestions: recentJobs.length,
       systemHealth: healthRes.ok ? 'healthy' : 'down',
       lastHealthCheck: new Date().toISOString(),
     };
