@@ -2,12 +2,7 @@
 
 import { cookies } from 'next/headers';
 import type { ApiResponse } from '@/lib/api-responses';
-
-const API_URL = process.env.NEXT_PUBLIC_API_URL;
-
-if (!API_URL) {
-  throw new Error('NEXT_PUBLIC_API_URL is not defined');
-}
+import { API_URL } from '@/lib/api-config';
 
 export interface Pokemon {
   id: number;
