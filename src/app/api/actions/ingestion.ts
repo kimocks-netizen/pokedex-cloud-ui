@@ -19,10 +19,12 @@ export interface IngestionJob {
 
 export interface IngestionJobsResponse {
   jobs: IngestionJob[];
-  total: number;
-  page: number;
-  limit: number;
-  totalPages: number;
+  pagination: {
+    total: number;
+    page: number;
+    limit: number;
+    totalPages: number;
+  };
 }
 
 export interface TriggerIngestionResponse {
@@ -97,16 +99,18 @@ export async function getIngestionJobs(page = 1, limit = 10): Promise<ApiRespons
 
     const result = await response.json();
     
-    // Backend returns { items, pagination }, transform to { jobs, ...pagination }
+    // Backend returns { items, pagination }, transform to { jobs, pagination }
     if (result.success && result.data) {
       return {
         success: true,
         data: {
           jobs: result.data.items || [],
-          total: result.data.pagination?.total || 0,
-          page: result.data.pagination?.page || 1,
-          limit: result.data.pagination?.limit || 10,
-          totalPages: result.data.pagination?.totalPages || 0,
+          pagination: {
+            total: result.data.pagination?.total || 0,
+            page: result.data.pagination?.page || 1,
+            limit: result.data.pagination?.limit || 10,
+            totalPages: result.data.pagination?.totalPages || 0,
+          },
         },
       };
     }

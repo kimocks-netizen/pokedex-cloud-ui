@@ -67,7 +67,8 @@ export default function LoginFormClient({ success }: LoginFormProps) {
       const response = await loginUser(formData);
 
       if (isSuccessResponse(response)) {
-        toast.success('Login successful!');
+        const username = response.data?.user?.username || values.username;
+        toast.success(`Welcome back, ${username}!`);
         router.push(ROUTES.OVERVIEW);
       } else {
         const errorMsg = getErrorMessage(response);

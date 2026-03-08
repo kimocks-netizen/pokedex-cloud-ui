@@ -30,8 +30,10 @@ export default function IngestionFormClient() {
     const response = await triggerIngestion(limitNum);
 
     if (isSuccessResponse(response)) {
-      setResult({ success: true, message: response.data?.message || 'Ingestion started successfully' });
-      toast.success('Ingestion triggered successfully!');
+      const message = response.data?.message || `Ingestion started for ${limitNum} Pokémon`;
+      const jobId = response.data?.jobId;
+      setResult({ success: true, message });
+      toast.success(message + (jobId ? ` (Job ID: ${jobId.slice(0, 8)}...)` : ''));
     } else {
       setResult({ success: false, message: getErrorMessage(response) });
       toast.error(getErrorMessage(response));

@@ -3,16 +3,26 @@ import { AppLayout } from '@/components/layout/AppLayout';
 import { getIngestionJobs } from '@/app/api/actions/ingestion';
 import { isSuccessResponse } from '@/lib/api-responses';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Clock, CheckCircle, XCircle, Loader2, AlertCircle } from 'lucide-react';
+import { Clock, CheckCircle, XCircle, Loader2, AlertCircle, ChevronLeft, ChevronRight } from 'lucide-react';
+import Link from 'next/link';
+import { Button } from '@/components/ui/button';
 
 export const dynamic = 'force-dynamic';
 
-export default async function IngestionPage() {
-  const jobsResponse = await getIngestionJobs(1, 10);
-  const jobs = isSuccessResponse(jobsResponse) && jobsResponse.data ? jobsResponse.data.jobs : [];
+interface PageProps {
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+}
+
+export default async function IngestionPage({ searchParams }: PageProps) {
+  const params = await searchParams;
+  const page = Number(params.page) || 1;
+  const limit = 4;
   
-  console.log('Ingestion jobs response:', JSON.stringify(jobsResponse, null, 2));
-  console.log('Jobs array:', jobs);
+  const jobsResponse = await getIngestionJobs(page, limit);
+  const jobs = isSuccessResponse(jobsResponse) && jobsResponse.data ? jobsResponse.data.jobs : [];
+  const pagination = isSuccessResponse(jobsResponse) && jobsResponse.data ? jobsResponse.data.pagination : null;
+  
+
 
   return (
     <AppLayout>
@@ -100,6 +110,40 @@ export default async function IngestionPage() {
                       </div>
                     );
                   })}
+                </div>
+              )}
+              
+              {pagination && pagination.totalPages > 1 && (
+                <div className="flex items-center justify-between mt-6 pt-4 border-t border-gray-200 dark:border-gray-700">
+                  <p className="text-sm font-semibold text-gray-700 dark:text-gray-300">
+                    Showing {((page - 1) * limit) + 1}-{Math.min(page * limit, pagination.total)} of {pagination.total} jobs
+                  </p>
+                  
+                  <div className="flex items-center gap-2">
+                    <Link href={`/admin/ingestion?page=${page - 1}`}>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        disabled={page <= 1}
+                        className="rounded-full"
+                      >
+                        <ChevronLeft className="h-4 w-4" />
+                      </Button>
+                    </Link>
+                    <span className="px-4 py-2 text-sm font-bold text-gray-900 dark:text-white">
+                      {page} / {pagination.totalPages}
+                    </span>
+                    <Link href={`/admin/ingestion?page=${page + 1}`}>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        disabled={page >= pagination.totalPages}
+                        className="rounded-full"
+                      >
+                        <ChevronRight className="h-4 w-4" />
+                      </Button>
+                    </Link>
+                  </div>
                 </div>
               )}
             </CardContent>

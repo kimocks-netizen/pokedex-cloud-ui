@@ -1,3 +1,5 @@
 {
-  "buildCommand": "NEXT_PUBLIC_API_URL=https://1o7s4ez9j2.execute-api.af-south-1.amazonaws.com/Prod npm run build"
+  "env": {
+    "NEXT_PUBLIC_API_URL": "https://1o7s4ez9j2.execute-api.af-south-1.amazonaws.com/Prod"
+  }
 }
