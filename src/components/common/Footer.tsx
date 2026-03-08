@@ -3,6 +3,7 @@
 import { useEffect } from 'react';
 import { Github, Mail, Database, Shield, TrendingUp, Activity, Lock, Home } from 'lucide-react';
 import Link from 'next/link';
+import Image from 'next/image';
 
 const Footer = () => {
   useEffect(() => {
@@ -29,11 +30,8 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {/* Company Info */}
           <div className="lg:col-span-2">
-            <div className="flex items-center gap-2 mb-4 footer-animate" style={{ transitionDelay: '0s' }}>
-              <Database className="text-primary text-2xl" />
-              <h3 className="text-lg font-bold text-gray-900 dark:text-white">
-                PokéDex Assessment
-              </h3>
+            <div className="flex items-center gap-3 mb-4 footer-animate" style={{ transitionDelay: '0s' }}>
+              <Image src="/logo.png" alt="PokéDex" width={150} height={50} className="object-contain" />
             </div>
             <p className="text-gray-600 dark:text-gray-300 text-sm mb-4 footer-animate" style={{ transitionDelay: '0.1s' }}>
               A resilient data pipeline demonstrating senior full-stack engineering principles. 

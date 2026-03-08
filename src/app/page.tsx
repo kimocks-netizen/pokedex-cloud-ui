@@ -56,7 +56,7 @@ export default function HomePage() {
 
       <div className="relative z-10">
         {/* Hero Section */}
-        <div className="text-center py-20 px-4">
+        <div className="text-center py-12 px-4">
           <div className="max-w-4xl mx-auto">
             <h1 className="text-5xl md:text-6xl font-bold text-gray-900 dark:text-white mb-6 drop-shadow-lg">
               Welcome to{' '}
@@ -64,12 +64,12 @@ export default function HomePage() {
                 PokéDex
               </span>
             </h1>
-            <p className="text-xl md:text-2xl text-gray-800 dark:text-gray-200 mb-12 max-w-3xl mx-auto drop-shadow-lg">
+            <p className="text-xl md:text-2xl text-gray-800 dark:text-gray-200 mb-8 max-w-3xl mx-auto drop-shadow-lg">
               A resilient data pipeline and dashboard that ingests Pokémon data from PokeAPI, 
               processes it asynchronously, and serves it through a high-performance API.
             </p>
             
-            <div className="flex flex-col sm:flex-row gap-6 justify-center items-center mb-16">
+            <div className="flex flex-col sm:flex-row gap-6 justify-center items-center mb-8">
               <Link href="/pokemon">
                 <Button 
                   size="lg" 
@@ -94,9 +94,9 @@ export default function HomePage() {
         </div>
 
         {/* Features Section */}
-        <div className="py-20 px-4">
+        <div className="py-12 px-4">
           <div className="max-w-6xl mx-auto">
-            <div className="text-center mb-16">
+            <div className="text-center mb-12">
               <h2 className="text-4xl font-bold text-gray-900 dark:text-white mb-4 drop-shadow-lg">
                 Powerful Features
               </h2>
@@ -137,7 +137,7 @@ export default function HomePage() {
         </div>
 
         {/* Quick Actions Section */}
-        <div className="py-20 px-4">
+        <div className="py-12 px-4">
           <div className="max-w-4xl mx-auto text-center">
             <h2 className="text-4xl font-bold text-gray-900 dark:text-white mb-8 drop-shadow-lg">
               Get Started Today

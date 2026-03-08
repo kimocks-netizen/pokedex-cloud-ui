@@ -2,9 +2,10 @@
 
 import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { useRouter, usePathname } from 'next/navigation';
 import { useTheme } from '@/layout/ThemeContext';
-import { Sun, Moon, Database, Menu, X, Activity, Lock, LogOut } from 'lucide-react';
+import { Sun, Moon, Menu, X, Lock, LogOut, Home } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { logout } from '@/app/api/actions/auth';
 import { toast } from '@/lib/toast';
@@ -52,76 +53,29 @@ const Navbar = () => {
       <nav className="backdrop-blur-md bg-white/80 dark:bg-slate-900/30 border-b border-gray-300 dark:border-slate-700/50 shadow-lg sticky top-0 z-50">
         <div className="container mx-auto px-4">
           <div className="flex justify-between items-center py-4">
-            <Link href="/" className="text-xl font-bold flex items-center text-gray-900 dark:text-white">
-              <Database className="mr-2 h-6 w-6" />
-              <span className="hidden sm:inline">PokéDex</span>
-              <span className="sm:hidden">PokéDex</span>
+            <Link href="/" className="flex items-center">
+              <Image src="/logo.png" alt="PokéDex" width={120} height={40} className="object-contain" />
             </Link>
             
             <div className="hidden md:flex items-center space-x-4">
-              {isAuthenticated && (
-                <Link href="/dashboard">
-                  <Button variant="ghost" className="text-gray-900 dark:text-white hover:bg-gray-900/10 dark:hover:bg-white/10">
-                    Dashboard
-                  </Button>
-                </Link>
-              )}
-              
-              <Link href="/pokemon">
-                <Button variant="ghost" className="text-gray-900 dark:text-white hover:bg-gray-900/10 dark:hover:bg-white/10">
-                  Pokémon
-                </Button>
-              </Link>
-              
-              {isAdmin && (
-                <Link href="/admin/ingestion">
-                  <Button variant="ghost" className="text-gray-900 dark:text-white hover:bg-gray-900/10 dark:hover:bg-white/10">
-                    Ingestion
-                  </Button>
-                </Link>
-              )}
-              
-              {isAdmin && (
-                <Link href="/admin/users">
-                  <Button variant="ghost" className="text-gray-900 dark:text-white hover:bg-gray-900/10 dark:hover:bg-white/10">
-                    Users
-                  </Button>
-                </Link>
-              )}
-              
-              {isAdmin && (
-                <Link href="/admin/dlq">
-                  <Button variant="ghost" className="text-gray-900 dark:text-white hover:bg-gray-900/10 dark:hover:bg-white/10">
-                    DLQ
-                  </Button>
-                </Link>
-              )}
-              
-              {isAdmin && (
-                <Link href="/admin/cron-jobs">
-                  <Button variant="ghost" className="text-gray-900 dark:text-white hover:bg-gray-900/10 dark:hover:bg-white/10">
-                    Cron Jobs
-                  </Button>
-                </Link>
-              )}
-              
-              {isAdmin && (
-                <Link href="/admin/system-health">
-                  <Button variant="ghost" className="text-gray-900 dark:text-white hover:bg-gray-900/10 dark:hover:bg-white/10">
-                    System Health
-                  </Button>
-                </Link>
+              {!isAuthenticated && (
+                <>
+                  <Link href="/">
+                    <Button variant="ghost" className="text-gray-900 dark:text-white hover:bg-gray-900/10 dark:hover:bg-white/10">
+                      <Home className="mr-2 h-4 w-4" />
+                      Home
+                    </Button>
+                  </Link>
+                  <Link href="/login">
+                    <Button variant="ghost" className="text-gray-900 dark:text-white hover:bg-gray-900/10 dark:hover:bg-white/10">
+                      <Lock className="mr-2 h-4 w-4" />
+                      Login
+                    </Button>
+                  </Link>
+                </>
               )}
               
               {isAuthenticated && (
-                <Link href="/profile">
-                  <Button variant="ghost" className="text-gray-900 dark:text-white hover:bg-gray-900/10 dark:hover:bg-white/10">
-                    Profile
-                  </Button>
-                </Link>
-              )}
-              
-              {isAuthenticated ? (
                 <Button 
                   variant="ghost" 
                   className="text-gray-900 dark:text-white hover:bg-gray-900/10 dark:hover:bg-white/10"
@@ -130,13 +84,6 @@ const Navbar = () => {
                   <LogOut className="mr-2 h-4 w-4" />
                   Logout
                 </Button>
-              ) : (
-                <Link href="/login">
-                  <Button variant="ghost" className="text-gray-900 dark:text-white hover:bg-gray-900/10 dark:hover:bg-white/10">
-                    <Lock className="mr-2 h-4 w-4" />
-                    Login
-                  </Button>
-                </Link>
               )}
               
               <Button
@@ -183,6 +130,15 @@ const Navbar = () => {
             className="fixed top-16 left-0 right-0 z-50 backdrop-blur-md bg-white/90 dark:bg-slate-900/90 border-b border-white/20 dark:border-slate-700/50 shadow-lg md:hidden"
           >
             <div className="flex flex-col px-4 py-4 space-y-2">
+              {!isAuthenticated && (
+                <Link href="/" onClick={() => setIsOpen(false)}>
+                  <Button variant="ghost" className="w-full text-gray-900 dark:text-white hover:bg-gray-900/10 dark:hover:bg-white/10 justify-start">
+                    <Home className="mr-2 h-4 w-4" />
+                    Home
+                  </Button>
+                </Link>
+              )}
+              
               {isAuthenticated && (
                 <Link href="/dashboard" onClick={() => setIsOpen(false)}>
                   <Button variant="ghost" className="w-full text-gray-900 dark:text-white hover:bg-gray-900/10 dark:hover:bg-white/10 justify-start">

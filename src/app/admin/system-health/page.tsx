@@ -3,7 +3,7 @@ import { getDLQStats } from '@/app/api/actions/dlq';
 import { isSuccessResponse } from '@/lib/api-responses';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { CheckCircle, XCircle, Database, Activity, Server, Clock, AlertTriangle } from 'lucide-react';
-import Image from 'next/image';
+import { AppLayout } from '@/components/layout/AppLayout';
 
 export default async function SystemHealthPage() {
   const [healthResponse, dlqResponse] = await Promise.all([
@@ -15,11 +15,8 @@ export default async function SystemHealthPage() {
   const dlqStats = isSuccessResponse(dlqResponse) ? dlqResponse.data : null;
 
   return (
-    <div className="min-h-screen relative">
-      <Image src="/bg-images/bg-light.png" alt="" fill className="object-cover dark:hidden" priority />
-      <Image src="/bg-images/bg-dark.png" alt="" fill className="object-cover hidden dark:block" priority />
-      
-      <div className="relative z-10 max-w-7xl mx-auto p-8">
+    <AppLayout>
+      <div className="max-w-7xl mx-auto">
         <div className="mb-8">
           <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-2">System Health Dashboard</h1>
           <p className="text-gray-600 dark:text-gray-400">Monitor system status and performance metrics</p>
@@ -182,6 +179,6 @@ export default async function SystemHealthPage() {
           </CardContent>
         </Card>
       </div>
-    </div>
+    </AppLayout>
   );
 }

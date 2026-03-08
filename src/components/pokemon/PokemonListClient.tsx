@@ -72,8 +72,8 @@ export default function PokemonListClient({ initialPokemon, total, page, totalPa
   const hasFilters = searchValue || currentType || currentSort !== 'id';
 
   return (
-    <Card className="bg-white/95 dark:bg-gray-800/95 backdrop-blur-lg border-2 border-gray-200 dark:border-gray-700 shadow-xl rounded-2xl">
-      <CardHeader className="pb-4 border-b border-gray-200 dark:border-gray-700">
+    <Card className="bg-white/95 dark:bg-slate-900/95 backdrop-blur-lg border-2 border-gray-200 dark:border-blue-400/20 shadow-xl rounded-2xl">
+      <CardHeader className="pb-4 border-b border-gray-200 dark:border-blue-400/20">
         <div className="flex justify-between items-center">
           <div>
             <CardTitle className="text-2xl font-bold text-gray-900 dark:text-white">Pokémon Database</CardTitle>
@@ -144,7 +144,7 @@ export default function PokemonListClient({ initialPokemon, total, page, totalPa
 
         {!isPending && initialPokemon.length > 0 && (
           <>
-            <div className="rounded-xl border-2 border-gray-200 dark:border-gray-700 overflow-hidden">
+            <div className="rounded-xl border-2 border-gray-200 dark:border-blue-400/20 overflow-hidden">
               <Table>
                 <TableHeader className="bg-gray-50 dark:bg-gray-900/50">
                   <TableRow className="hover:bg-gray-50 dark:hover:bg-gray-900/50">
@@ -202,7 +202,7 @@ export default function PokemonListClient({ initialPokemon, total, page, totalPa
               </Table>
             </div>
 
-            <div className="flex items-center justify-between mt-6 pt-4 border-t border-gray-200 dark:border-gray-700">
+            <div className="flex items-center justify-between mt-6 pt-4 border-t border-gray-200 dark:border-blue-400/20">
               <p className="text-sm font-semibold text-gray-700 dark:text-gray-300">
                 Showing {((page - 1) * 20) + 1}-{Math.min(page * 20, total)} of {total} Pokémon
               </p>

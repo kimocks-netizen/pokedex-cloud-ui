@@ -3,7 +3,7 @@ import { getPokemonList, getPokemonTypes } from '@/app/api/actions/pokemon';
 import { isSuccessResponse, getErrorMessage } from '@/lib/api-responses';
 import PokemonListClient from '@/components/pokemon/PokemonListClient';
 import { Database, AlertCircle } from 'lucide-react';
-import Image from 'next/image';
+import { AppLayout } from '@/components/layout/AppLayout';
 
 interface PageProps {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
@@ -23,10 +23,8 @@ export default async function PokemonPage({ searchParams }: PageProps) {
 
   if (!isSuccessResponse(pokemonResponse)) {
     return (
-      <div className="min-h-screen relative">
-        <Image src="/bg-images/bg-light.png" alt="" fill className="object-cover dark:hidden" priority />
-        <Image src="/bg-images/bg-dark.png" alt="" fill className="object-cover hidden dark:block" priority />
-        <div className="relative z-10 max-w-7xl mx-auto p-8">
+      <AppLayout>
+        <div className="max-w-7xl mx-auto">
           <Card className="bg-red-50/90 dark:bg-red-900/30 backdrop-blur-md border-2 border-red-300 dark:border-red-800">
             <CardContent className="p-8 text-center">
               <AlertCircle className="w-12 h-12 mx-auto mb-4 text-red-600 dark:text-red-400" />
@@ -36,7 +34,7 @@ export default async function PokemonPage({ searchParams }: PageProps) {
             </CardContent>
           </Card>
         </div>
-      </div>
+      </AppLayout>
     );
   }
 
@@ -44,10 +42,8 @@ export default async function PokemonPage({ searchParams }: PageProps) {
   const types = isSuccessResponse(typesResponse) ? typesResponse.data! : [];
 
   return (
-    <div className="min-h-screen relative">
-      <Image src="/bg-images/bg-light.png" alt="" fill className="object-cover dark:hidden" priority />
-      <Image src="/bg-images/bg-dark.png" alt="" fill className="object-cover hidden dark:block" priority />
-      <div className="relative z-10 max-w-7xl mx-auto p-8">
+    <AppLayout>
+      <div className="max-w-7xl mx-auto">
         {pokemon.length === 0 && !search && !type ? (
           <Card className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-md border-2">
             <CardContent className="p-16 text-center">
@@ -65,6 +61,6 @@ export default async function PokemonPage({ searchParams }: PageProps) {
           />
         )}
       </div>
-    </div>
+    </AppLayout>
   );
 }

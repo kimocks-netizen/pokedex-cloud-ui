@@ -5,7 +5,7 @@ import { Clock, CheckCircle, XCircle, Calendar, PlayCircle } from 'lucide-react'
 import CronJobFormClient from '@/components/admin/CronJobFormClient';
 import DeleteJobButton from '@/components/admin/DeleteJobButton';
 import ToggleJobButton from '@/components/admin/ToggleJobButton';
-import Image from 'next/image';
+import { AppLayout } from '@/components/layout/AppLayout';
 
 const JOB_DESCRIPTIONS: Record<string, string> = {
   'pokemon_ingestion': 'Automatically fetch and ingest Pokemon data from external API',
@@ -18,11 +18,8 @@ export default async function CronJobsPage() {
   const total = isSuccessResponse(cronResponse) ? cronResponse.data.total : 0;
 
   return (
-    <div className="min-h-screen relative">
-      <Image src="/bg-images/bg-light.png" alt="" fill className="object-cover dark:hidden" priority />
-      <Image src="/bg-images/bg-dark.png" alt="" fill className="object-cover hidden dark:block" priority />
-      
-      <div className="relative z-10 max-w-7xl mx-auto p-8">
+    <AppLayout>
+      <div className="max-w-7xl mx-auto">
         <div className="mb-8">
           <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-2">Cron Jobs</h1>
           <p className="text-gray-600 dark:text-gray-400">Monitor and manage scheduled tasks</p>
@@ -106,6 +103,6 @@ export default async function CronJobsPage() {
           </Card>
         </div>
       </div>
-    </div>
+    </AppLayout>
   );
 }
