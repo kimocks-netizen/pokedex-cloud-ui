@@ -11,7 +11,7 @@ export default function PerformancePage() {
       <div className="max-w-7xl mx-auto">
         <div className="mb-8">
           <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-2">Performance Comparison</h1>
-          <p className="text-gray-600 dark:text-gray-400">OpenSearch vs PostgreSQL API Speed Test - Querying <span className="font-bold text-red-600 dark:text-red-400">1,201</span> Pokémon Records</p>
+          <p className="text-gray-600 dark:text-gray-400">OpenSearch Indexing vs API Speed Test - Querying <span className="font-bold text-red-600 dark:text-red-400">1,201</span> Pokémon Records</p>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
@@ -19,7 +19,7 @@ export default function PerformancePage() {
             <CardHeader className="pb-3">
               <CardTitle className="flex items-center gap-2 text-green-700 dark:text-green-300 text-base">
                 <Zap className="h-4 w-4" />
-                OpenSearch
+                OpenSearch - Response
               </CardTitle>
             </CardHeader>
             <CardContent>
@@ -32,7 +32,7 @@ export default function PerformancePage() {
             <CardHeader className="pb-3">
               <CardTitle className="flex items-center gap-2 text-red-700 dark:text-red-300 text-base">
                 <Database className="h-4 w-4" />
-                PostgreSQL
+                API - Response
               </CardTitle>
             </CardHeader>
             <CardContent>
