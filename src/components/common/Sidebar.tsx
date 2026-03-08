@@ -28,11 +28,11 @@ const navItems = [
 ];
 
 const adminItems = [
-  { href: '/admin/ingestion', icon: Upload, label: 'Ingestion' },
-  { href: '/admin/users', icon: Users, label: 'Users' },
-  { href: '/admin/dlq', icon: AlertTriangle, label: 'DLQ' },
-  { href: '/admin/cron-jobs', icon: Clock, label: 'Cron Jobs' },
+  { href: '/admin/ingestion', icon: Upload, label: 'Manual Ingestion' }, 
+  { href: '/admin/dlq', icon: AlertTriangle, label: 'Failed Messages' },
+  { href: '/admin/cron-jobs', icon: Clock, label: 'Scheduled Ingestion' },
   { href: '/admin/system-health', icon: Activity, label: 'System Health' },
+   { href: '/admin/users', icon: Users, label: 'Users' },
 ];
 
 const profileItem = { href: '/profile', icon: User, label: 'Profile' };

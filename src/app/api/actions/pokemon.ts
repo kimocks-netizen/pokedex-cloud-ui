@@ -32,7 +32,18 @@ export interface PokemonListResponse {
 export interface PokemonFilters {
   search?: string;
   type?: string;
-  sortBy?: 'id' | 'name' | 'powerScore';
+  ability?: string;
+  minHp?: number;
+  maxHp?: number;
+  minAttack?: number;
+  maxAttack?: number;
+  minDefense?: number;
+  maxDefense?: number;
+  minSpeed?: number;
+  maxSpeed?: number;
+  minPower?: number;
+  maxPower?: number;
+  sortBy?: 'id' | 'name' | 'powerScore' | 'hp' | 'attack' | 'defense' | 'speed';
   sortOrder?: 'asc' | 'desc';
   page?: number;
   limit?: number;
@@ -74,6 +85,17 @@ export async function getPokemonList(filters: PokemonFilters = {}): Promise<ApiR
     const params = new URLSearchParams();
     if (filters.search) params.append('search', filters.search);
     if (filters.type) params.append('type', filters.type);
+    if (filters.ability) params.append('ability', filters.ability);
+    if (filters.minHp) params.append('minHp', String(filters.minHp));
+    if (filters.maxHp) params.append('maxHp', String(filters.maxHp));
+    if (filters.minAttack) params.append('minAttack', String(filters.minAttack));
+    if (filters.maxAttack) params.append('maxAttack', String(filters.maxAttack));
+    if (filters.minDefense) params.append('minDefense', String(filters.minDefense));
+    if (filters.maxDefense) params.append('maxDefense', String(filters.maxDefense));
+    if (filters.minSpeed) params.append('minSpeed', String(filters.minSpeed));
+    if (filters.maxSpeed) params.append('maxSpeed', String(filters.maxSpeed));
+    if (filters.minPower) params.append('minPower', String(filters.minPower));
+    if (filters.maxPower) params.append('maxPower', String(filters.maxPower));
     if (filters.sortBy) params.append('sortBy', filters.sortBy);
     if (filters.sortOrder) params.append('sortOrder', filters.sortOrder);
     params.append('page', String(filters.page || 1));

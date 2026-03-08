@@ -22,7 +22,7 @@ export default async function DLQPage() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
-          <Card className="bg-white/95 dark:bg-gray-800/95 backdrop-blur-lg border-2 border-red-200 dark:border-red-800 rounded-2xl">
+          <Card className="bg-white/95 dark:bg-gray-800/95 backdrop-blur-lg border-2 border-red-200 dark:border-red-800 rounded-2xl transition-all duration-300 hover:shadow-xl hover:-translate-y-2 cursor-pointer group">
             <CardHeader className="pb-3">
               <CardTitle className="text-sm font-medium text-gray-600 dark:text-gray-400 flex items-center gap-2">
                 <AlertTriangle className="h-4 w-4" />
@@ -36,7 +36,7 @@ export default async function DLQPage() {
             </CardContent>
           </Card>
 
-          <Card className="bg-white/95 dark:bg-gray-800/95 backdrop-blur-lg border-2 border-yellow-200 dark:border-yellow-800 rounded-2xl">
+          <Card className="bg-white/95 dark:bg-gray-800/95 backdrop-blur-lg border-2 border-yellow-200 dark:border-yellow-800 rounded-2xl transition-all duration-300 hover:shadow-xl hover:-translate-y-2 cursor-pointer group">
             <CardHeader className="pb-3">
               <CardTitle className="text-sm font-medium text-gray-600 dark:text-gray-400 flex items-center gap-2">
                 <Clock className="h-4 w-4" />
@@ -50,7 +50,7 @@ export default async function DLQPage() {
             </CardContent>
           </Card>
 
-          <Card className="bg-white/95 dark:bg-gray-800/95 backdrop-blur-lg border-2 border-blue-200 dark:border-blue-800 rounded-2xl">
+          <Card className="bg-white/95 dark:bg-gray-800/95 backdrop-blur-lg border-2 border-blue-200 dark:border-blue-800 rounded-2xl transition-all duration-300 hover:shadow-xl hover:-translate-y-2 cursor-pointer group">
             <CardHeader className="pb-3">
               <CardTitle className="text-sm font-medium text-gray-600 dark:text-gray-400 flex items-center gap-2">
                 <RefreshCw className="h-4 w-4" />
@@ -64,7 +64,7 @@ export default async function DLQPage() {
             </CardContent>
           </Card>
 
-          <Card className="bg-white/95 dark:bg-gray-800/95 backdrop-blur-lg border-2 border-gray-200 dark:border-gray-700 rounded-2xl">
+          <Card className="bg-white/95 dark:bg-gray-800/95 backdrop-blur-lg border-2 border-gray-200 dark:border-gray-700 rounded-2xl transition-all duration-300 hover:shadow-xl hover:-translate-y-2 cursor-pointer group">
             <CardHeader className="pb-3">
               <CardTitle className="text-sm font-medium text-gray-600 dark:text-gray-400 flex items-center gap-2">
                 <XCircle className="h-4 w-4" />
@@ -78,7 +78,7 @@ export default async function DLQPage() {
             </CardContent>
           </Card>
 
-          <Card className="bg-white/95 dark:bg-gray-800/95 backdrop-blur-lg border-2 border-green-200 dark:border-green-800 rounded-2xl">
+          <Card className="bg-white/95 dark:bg-gray-800/95 backdrop-blur-lg border-2 border-green-200 dark:border-green-800 rounded-2xl transition-all duration-300 hover:shadow-xl hover:-translate-y-2 cursor-pointer group">
             <CardHeader className="pb-3">
               <CardTitle className="text-sm font-medium text-gray-600 dark:text-gray-400 flex items-center gap-2">
                 <CheckCircle className="h-4 w-4" />
@@ -93,7 +93,7 @@ export default async function DLQPage() {
           </Card>
         </div>
 
-        <Card className="bg-white/95 dark:bg-gray-800/95 backdrop-blur-lg border-2 border-gray-200 dark:border-gray-700 rounded-2xl mt-6">
+        <Card className="bg-white/95 dark:bg-gray-800/95 backdrop-blur-lg border-2 border-gray-200 dark:border-gray-700 rounded-2xl mt-6 transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
           <CardHeader className="border-b border-gray-200 dark:border-gray-700">
             <CardTitle className="text-2xl font-bold text-gray-900 dark:text-white">Failed Messages</CardTitle>
           </CardHeader>
@@ -119,7 +119,7 @@ export default async function DLQPage() {
                   </TableHeader>
                   <TableBody>
                     {messages.map((msg: any) => (
-                      <TableRow key={msg.id}>
+                      <TableRow key={msg.id} className="hover:bg-indigo-50 dark:hover:bg-indigo-900/30 transition-all duration-200">
                         <TableCell className="font-mono text-xs">{msg.id}</TableCell>
                         <TableCell className="text-sm text-red-600 dark:text-red-400">{msg.error}</TableCell>
                         <TableCell>{msg.retryCount}</TableCell>

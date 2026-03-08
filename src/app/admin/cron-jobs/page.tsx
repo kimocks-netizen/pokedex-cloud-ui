@@ -26,7 +26,7 @@ export default async function CronJobsPage() {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          <Card className="bg-white/95 dark:bg-gray-800/95 backdrop-blur-lg border-2 border-gray-200 dark:border-gray-700 rounded-2xl lg:col-span-1">
+          <Card className="bg-white/95 dark:bg-gray-800/95 backdrop-blur-lg border-2 border-gray-200 dark:border-gray-700 rounded-2xl lg:col-span-1 transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
             <CardHeader className="border-b border-gray-200 dark:border-gray-700">
               <CardTitle className="text-xl font-bold text-gray-900 dark:text-white">Create New Job</CardTitle>
             </CardHeader>
@@ -35,7 +35,7 @@ export default async function CronJobsPage() {
             </CardContent>
           </Card>
 
-          <Card className="bg-white/95 dark:bg-gray-800/95 backdrop-blur-lg border-2 border-gray-200 dark:border-gray-700 rounded-2xl lg:col-span-2">
+          <Card className="bg-white/95 dark:bg-gray-800/95 backdrop-blur-lg border-2 border-gray-200 dark:border-gray-700 rounded-2xl lg:col-span-2 transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
             <CardHeader className="border-b border-gray-200 dark:border-gray-700">
               <CardTitle className="text-2xl font-bold text-gray-900 dark:text-white">Scheduled Jobs ({total})</CardTitle>
             </CardHeader>
@@ -49,7 +49,7 @@ export default async function CronJobsPage() {
             ) : (
               <div className="space-y-4">
                 {jobs.map((job: any) => (
-                  <div key={job.id} className="border border-gray-200 dark:border-gray-700 rounded-xl p-4 hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors">
+                  <div key={job.id} className="border border-gray-200 dark:border-gray-700 rounded-xl p-4 hover:bg-indigo-50 dark:hover:bg-indigo-900/30 transition-all duration-200">
                     <div className="flex items-start justify-between">
                       <div className="flex-1">
                         <div className="flex items-center gap-3 mb-2">

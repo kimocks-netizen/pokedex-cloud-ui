@@ -23,7 +23,7 @@ export default async function SystemHealthPage() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-          <Card className="bg-white/95 dark:bg-gray-800/95 backdrop-blur-lg border-2 border-gray-200 dark:border-gray-700 rounded-2xl">
+          <Card className="bg-white/95 dark:bg-gray-800/95 backdrop-blur-lg border-2 border-gray-200 dark:border-gray-700 rounded-2xl transition-all duration-300 hover:shadow-xl hover:-translate-y-2 cursor-pointer group">
             <CardHeader className="pb-3">
               <CardTitle className="text-sm font-medium text-gray-600 dark:text-gray-400 flex items-center gap-2">
                 <Server className="h-4 w-4" />
@@ -44,7 +44,7 @@ export default async function SystemHealthPage() {
             </CardContent>
           </Card>
 
-          <Card className="bg-white/95 dark:bg-gray-800/95 backdrop-blur-lg border-2 border-gray-200 dark:border-gray-700 rounded-2xl">
+          <Card className="bg-white/95 dark:bg-gray-800/95 backdrop-blur-lg border-2 border-gray-200 dark:border-gray-700 rounded-2xl transition-all duration-300 hover:shadow-xl hover:-translate-y-2 cursor-pointer group">
             <CardHeader className="pb-3">
               <CardTitle className="text-sm font-medium text-gray-600 dark:text-gray-400 flex items-center gap-2">
                 <Database className="h-4 w-4" />
@@ -65,7 +65,7 @@ export default async function SystemHealthPage() {
             </CardContent>
           </Card>
 
-          <Card className="bg-white/95 dark:bg-gray-800/95 backdrop-blur-lg border-2 border-blue-200 dark:border-blue-800 rounded-2xl">
+          <Card className="bg-white/95 dark:bg-gray-800/95 backdrop-blur-lg border-2 border-blue-200 dark:border-blue-800 rounded-2xl transition-all duration-300 hover:shadow-xl hover:-translate-y-2 cursor-pointer group">
             <CardHeader className="pb-3">
               <CardTitle className="text-sm font-medium text-gray-600 dark:text-gray-400 flex items-center gap-2">
                 <Activity className="h-4 w-4" />
@@ -80,7 +80,7 @@ export default async function SystemHealthPage() {
             </CardContent>
           </Card>
 
-          <Card className="bg-white/95 dark:bg-gray-800/95 backdrop-blur-lg border-2 border-orange-200 dark:border-orange-800 rounded-2xl">
+          <Card className="bg-white/95 dark:bg-gray-800/95 backdrop-blur-lg border-2 border-orange-200 dark:border-orange-800 rounded-2xl transition-all duration-300 hover:shadow-xl hover:-translate-y-2 cursor-pointer group">
             <CardHeader className="pb-3">
               <CardTitle className="text-sm font-medium text-gray-600 dark:text-gray-400 flex items-center gap-2">
                 <AlertTriangle className="h-4 w-4" />
@@ -95,7 +95,7 @@ export default async function SystemHealthPage() {
             </CardContent>
           </Card>
 
-          <Card className="bg-white/95 dark:bg-gray-800/95 backdrop-blur-lg border-2 border-purple-200 dark:border-purple-800 rounded-2xl">
+          <Card className="bg-white/95 dark:bg-gray-800/95 backdrop-blur-lg border-2 border-purple-200 dark:border-purple-800 rounded-2xl transition-all duration-300 hover:shadow-xl hover:-translate-y-2 cursor-pointer group">
             <CardHeader className="pb-3">
               <CardTitle className="text-sm font-medium text-gray-600 dark:text-gray-400 flex items-center gap-2">
                 <Clock className="h-4 w-4" />
@@ -113,13 +113,13 @@ export default async function SystemHealthPage() {
           </Card>
         </div>
 
-        <Card className="bg-white/95 dark:bg-gray-800/95 backdrop-blur-lg border-2 border-gray-200 dark:border-gray-700 rounded-2xl">
+        <Card className="bg-white/95 dark:bg-gray-800/95 backdrop-blur-lg border-2 border-gray-200 dark:border-gray-700 rounded-2xl transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
           <CardHeader className="border-b border-gray-200 dark:border-gray-700">
             <CardTitle className="text-2xl font-bold text-gray-900 dark:text-white">System Components</CardTitle>
           </CardHeader>
           <CardContent className="pt-6">
             <div className="space-y-4">
-              <div className="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-900/50 rounded-xl">
+              <div className="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-900/50 rounded-xl hover:bg-indigo-50 dark:hover:bg-indigo-900/30 transition-all duration-200">
                 <div className="flex items-center gap-3">
                   <Server className="h-5 w-5 text-gray-600 dark:text-gray-400" />
                   <span className="font-medium text-gray-900 dark:text-white">REST API</span>
@@ -133,7 +133,7 @@ export default async function SystemHealthPage() {
                 </span>
               </div>
 
-              <div className="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-900/50 rounded-xl">
+              <div className="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-900/50 rounded-xl hover:bg-indigo-50 dark:hover:bg-indigo-900/30 transition-all duration-200">
                 <div className="flex items-center gap-3">
                   <Database className="h-5 w-5 text-gray-600 dark:text-gray-400" />
                   <span className="font-medium text-gray-900 dark:text-white">PostgreSQL Database</span>
@@ -147,7 +147,7 @@ export default async function SystemHealthPage() {
                 </span>
               </div>
 
-              <div className="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-900/50 rounded-xl">
+              <div className="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-900/50 rounded-xl hover:bg-indigo-50 dark:hover:bg-indigo-900/30 transition-all duration-200">
                 <div className="flex items-center gap-3">
                   <Activity className="h-5 w-5 text-gray-600 dark:text-gray-400" />
                   <span className="font-medium text-gray-900 dark:text-white">SQS Message Queue</span>
@@ -157,7 +157,7 @@ export default async function SystemHealthPage() {
                 </span>
               </div>
 
-              <div className="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-900/50 rounded-xl">
+              <div className="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-900/50 rounded-xl hover:bg-indigo-50 dark:hover:bg-indigo-900/30 transition-all duration-200">
                 <div className="flex items-center gap-3">
                   <AlertTriangle className="h-5 w-5 text-gray-600 dark:text-gray-400" />
                   <div>

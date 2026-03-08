@@ -51,7 +51,7 @@ export default function RegisterPage() {
           </div>
 
           <div className="flex items-center justify-center">
-            <Card className="w-full max-w-md bg-white dark:bg-slate-900/95 border-gray-200 dark:border-slate-700/50 shadow-2xl">
+            <Card className="w-full max-w-md bg-white dark:bg-slate-900/95 border-gray-200 dark:border-slate-700/50 shadow-2xl transition-all duration-300 hover:shadow-3xl hover:-translate-y-2">
               <CardHeader className="text-center space-y-3 pb-6">
                 <div className="mx-auto w-16 h-16 p-3 bg-blue-600 rounded-full flex items-center justify-center">
                   <Database className="w-8 h-8 text-white" />

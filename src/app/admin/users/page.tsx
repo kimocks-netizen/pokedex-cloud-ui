@@ -33,7 +33,7 @@ export default async function UsersPage() {
           <p className="text-gray-600 dark:text-gray-400">View and manage system users</p>
         </div>
 
-        <Card className="bg-white/95 dark:bg-slate-900/95 backdrop-blur-lg border-2 border-gray-200 dark:border-blue-400/20 rounded-2xl">
+        <Card className="bg-white/95 dark:bg-slate-900/95 backdrop-blur-lg border-2 border-gray-200 dark:border-blue-400/20 rounded-2xl transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
           <CardHeader className="border-b border-gray-200 dark:border-blue-400/20">
             <CardTitle className="text-2xl font-bold text-gray-900 dark:text-white flex items-center gap-2">
               <Users className="h-6 w-6" />
@@ -60,7 +60,7 @@ export default async function UsersPage() {
                   </TableHeader>
                   <TableBody>
                     {users.map((user: any) => (
-                      <TableRow key={user.id}>
+                      <TableRow key={user.id} className="hover:bg-indigo-50 dark:hover:bg-indigo-900/30 transition-all duration-200">
                         <TableCell className="font-medium">
                           <div className="flex items-center gap-2">
                             <User className="h-4 w-4 text-gray-400" />

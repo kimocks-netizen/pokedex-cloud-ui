@@ -55,14 +55,14 @@ export default function HealthPage() {
         </div>
 
         {loading ? (
-          <Card className="backdrop-blur-md bg-white/80 dark:bg-slate-900/80">
+          <Card className="backdrop-blur-md bg-white/80 dark:bg-slate-900/80 transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
             <CardContent className="p-8 text-center">
               <Activity className="w-12 h-12 mx-auto mb-4 animate-pulse text-primary" />
               <p className="text-gray-600 dark:text-gray-300">Loading health status...</p>
             </CardContent>
           </Card>
         ) : error ? (
-          <Card className="backdrop-blur-md bg-white/80 dark:bg-slate-900/80 border-red-200 dark:border-red-800">
+          <Card className="backdrop-blur-md bg-white/80 dark:bg-slate-900/80 border-red-200 dark:border-red-800 transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
             <CardContent className="p-8 text-center">
               <XCircle className="w-12 h-12 mx-auto mb-4 text-red-500" />
               <p className="text-red-600 dark:text-red-400 font-semibold mb-2">Error</p>
@@ -71,7 +71,7 @@ export default function HealthPage() {
           </Card>
         ) : (
           <>
-            <Card className={`backdrop-blur-md bg-white/80 dark:bg-slate-900/80 mb-6 ${isHealthy ? 'border-green-200 dark:border-green-800' : 'border-red-200 dark:border-red-800'}`}>
+            <Card className={`backdrop-blur-md bg-white/80 dark:bg-slate-900/80 mb-6 transition-all duration-300 hover:shadow-xl hover:-translate-y-1 ${isHealthy ? 'border-green-200 dark:border-green-800' : 'border-red-200 dark:border-red-800'}`}>
               <CardHeader>
                 <CardTitle className="flex items-center gap-3">
                   {isHealthy ? (
@@ -85,7 +85,7 @@ export default function HealthPage() {
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
-                <div className="flex items-center justify-between p-4 bg-gray-50 dark:bg-slate-800 rounded-lg">
+                <div className="flex items-center justify-between p-4 bg-gray-50 dark:bg-slate-800 rounded-lg hover:bg-indigo-50 dark:hover:bg-indigo-900/30 transition-all duration-200">
                   <div className="flex items-center gap-3">
                     <Activity className="w-5 h-5 text-primary" />
                     <span className="font-medium text-gray-900 dark:text-white">Service</span>
@@ -93,7 +93,7 @@ export default function HealthPage() {
                   <span className="text-gray-600 dark:text-gray-300">{health?.service}</span>
                 </div>
 
-                <div className="flex items-center justify-between p-4 bg-gray-50 dark:bg-slate-800 rounded-lg">
+                <div className="flex items-center justify-between p-4 bg-gray-50 dark:bg-slate-800 rounded-lg hover:bg-indigo-50 dark:hover:bg-indigo-900/30 transition-all duration-200">
                   <div className="flex items-center gap-3">
                     <Database className="w-5 h-5 text-primary" />
                     <span className="font-medium text-gray-900 dark:text-white">Database</span>
@@ -103,7 +103,7 @@ export default function HealthPage() {
                   </span>
                 </div>
 
-                <div className="flex items-center justify-between p-4 bg-gray-50 dark:bg-slate-800 rounded-lg">
+                <div className="flex items-center justify-between p-4 bg-gray-50 dark:bg-slate-800 rounded-lg hover:bg-indigo-50 dark:hover:bg-indigo-900/30 transition-all duration-200">
                   <div className="flex items-center gap-3">
                     <Clock className="w-5 h-5 text-primary" />
                     <span className="font-medium text-gray-900 dark:text-white">Last Check</span>
@@ -115,13 +115,13 @@ export default function HealthPage() {
               </CardContent>
             </Card>
 
-            <Card className="backdrop-blur-md bg-white/80 dark:bg-slate-900/80">
+            <Card className="backdrop-blur-md bg-white/80 dark:bg-slate-900/80 transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
               <CardContent className="p-6 text-center">
                 <p className="text-gray-600 dark:text-gray-300 mb-4">
                   For detailed health metrics and monitoring, please login to access the full dashboard.
                 </p>
                 <Link href="/login">
-                  <Button size="lg">
+                  <Button size="lg" className="transition-all duration-200 hover:scale-105 hover:shadow-md">
                     Login for Detailed Health
                   </Button>
                 </Link>

@@ -12,12 +12,42 @@ interface PageProps {
 export default async function PokemonPage({ searchParams }: PageProps) {
   const params = await searchParams;
   const page = Number(params.page) || 1;
+  const limit = Number(params.limit) || 20;
   const search = typeof params.search === 'string' ? params.search : undefined;
   const type = typeof params.type === 'string' ? params.type : undefined;
-  const sortBy = typeof params.sortBy === 'string' ? params.sortBy as 'id' | 'name' | 'powerScore' : 'id';
+  const ability = typeof params.ability === 'string' ? params.ability : undefined;
+  const sortBy = typeof params.sortBy === 'string' ? params.sortBy as 'id' | 'name' | 'powerScore' | 'hp' | 'attack' | 'defense' | 'speed' : 'id';
+  
+  const minHp = params.minHp ? Number(params.minHp) : undefined;
+  const maxHp = params.maxHp ? Number(params.maxHp) : undefined;
+  const minAttack = params.minAttack ? Number(params.minAttack) : undefined;
+  const maxAttack = params.maxAttack ? Number(params.maxAttack) : undefined;
+  const minDefense = params.minDefense ? Number(params.minDefense) : undefined;
+  const maxDefense = params.maxDefense ? Number(params.maxDefense) : undefined;
+  const minSpeed = params.minSpeed ? Number(params.minSpeed) : undefined;
+  const maxSpeed = params.maxSpeed ? Number(params.maxSpeed) : undefined;
+  const minPower = params.minPower ? Number(params.minPower) : undefined;
+  const maxPower = params.maxPower ? Number(params.maxPower) : undefined;
 
   const [pokemonResponse, typesResponse] = await Promise.all([
-    getPokemonList({ page, search, type, sortBy, limit: 20 }),
+    getPokemonList({ 
+      page, 
+      limit,
+      search, 
+      type, 
+      ability,
+      sortBy,
+      minHp,
+      maxHp,
+      minAttack,
+      maxAttack,
+      minDefense,
+      maxDefense,
+      minSpeed,
+      maxSpeed,
+      minPower,
+      maxPower,
+    }),
     getPokemonTypes(),
   ]);
 

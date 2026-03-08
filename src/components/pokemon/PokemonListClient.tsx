@@ -5,7 +5,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Search, ChevronLeft, ChevronRight, X, ChevronDown, Filter } from 'lucide-react';
+import { Search, ChevronLeft, ChevronRight, X, ChevronDown, Filter, SlidersHorizontal } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import TypeBadge from './TypeBadge';
@@ -24,10 +24,59 @@ export default function PokemonListClient({ initialPokemon, total, page, totalPa
   const router = useRouter();
   const searchParams = useSearchParams();
   const [isPending, startTransition] = useTransition();
+  const [showAdvanced, setShowAdvanced] = useState(false);
+  
+  // Local state for advanced filters
+  const [advancedFilters, setAdvancedFilters] = useState({
+    minHp: searchParams.get('minHp') || '',
+    maxHp: searchParams.get('maxHp') || '',
+    minAttack: searchParams.get('minAttack') || '',
+    maxAttack: searchParams.get('maxAttack') || '',
+    minDefense: searchParams.get('minDefense') || '',
+    maxDefense: searchParams.get('maxDefense') || '',
+    minSpeed: searchParams.get('minSpeed') || '',
+    maxSpeed: searchParams.get('maxSpeed') || '',
+    minPower: searchParams.get('minPower') || '',
+    maxPower: searchParams.get('maxPower') || '',
+  });
   
   const [searchValue, setSearchValue] = useState(searchParams.get('search') || '');
   const currentType = searchParams.get('type') || '';
   const currentSort = searchParams.get('sortBy') || 'id';
+  const currentLimit = searchParams.get('limit') || '20';
+
+  const applyAdvancedFilters = () => {
+    const params = new URLSearchParams(searchParams.toString());
+    Object.entries(advancedFilters).forEach(([key, value]) => {
+      if (value) {
+        params.set(key, value);
+      } else {
+        params.delete(key);
+      }
+    });
+    params.set('page', '1');
+    
+    startTransition(() => {
+      router.push(`/pokemon?${params.toString()}`);
+    });
+  };
+
+  const clearAdvancedFilters = () => {
+    setAdvancedFilters({
+      minHp: '',
+      maxHp: '',
+      minAttack: '',
+      maxAttack: '',
+      minDefense: '',
+      maxDefense: '',
+      minSpeed: '',
+      maxSpeed: '',
+      minPower: '',
+      maxPower: '',
+    });
+  };
+
+  const hasAdvancedFilters = Object.values(advancedFilters).some(v => v !== '');
 
   const updateFilters = (key: string, value: string) => {
     const params = new URLSearchParams(searchParams.toString());
@@ -69,10 +118,10 @@ export default function PokemonListClient({ initialPokemon, total, page, totalPa
     updateFilters('sortBy', field);
   };
 
-  const hasFilters = searchValue || currentType || currentSort !== 'id';
+  const hasFilters = searchValue || currentType || currentSort !== 'id' || currentLimit !== '20';
 
   return (
-    <Card className="bg-white/95 dark:bg-slate-900/95 backdrop-blur-lg border-2 border-gray-200 dark:border-blue-400/20 shadow-xl rounded-2xl">
+    <Card className="bg-white/95 dark:bg-slate-900/95 backdrop-blur-lg border-2 border-gray-200 dark:border-blue-400/20 shadow-xl rounded-2xl transition-all duration-300 hover:shadow-2xl hover:-translate-y-1">
       <CardHeader className="pb-4 border-b border-gray-200 dark:border-blue-400/20">
         <div className="flex justify-between items-center">
           <div>
@@ -115,6 +164,27 @@ export default function PokemonListClient({ initialPokemon, total, page, totalPa
                 </SelectContent>
               </Select>
 
+              <Select value={currentLimit} onValueChange={(value) => updateFilters('limit', value)}>
+                <SelectTrigger className="w-[120px] h-9 rounded-full bg-white dark:bg-gray-900 border-gray-300 dark:border-gray-600">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="10">10 per page</SelectItem>
+                  <SelectItem value="20">20 per page</SelectItem>
+                  <SelectItem value="50">50 per page</SelectItem>
+                  <SelectItem value="100">100 per page</SelectItem>
+                </SelectContent>
+              </Select>
+
+              <Button 
+                variant="outline" 
+                onClick={() => setShowAdvanced(!showAdvanced)} 
+                className="h-9 px-3 rounded-full"
+              >
+                <SlidersHorizontal className="h-4 w-4 mr-2" />
+                Advanced
+              </Button>
+
               {hasFilters && (
                 <Button variant="outline" onClick={clearFilters} disabled={isPending} className="h-9 px-3 rounded-full">
                   <X className="h-4 w-4" />
@@ -122,6 +192,142 @@ export default function PokemonListClient({ initialPokemon, total, page, totalPa
               )}
             </div>
           </div>
+
+          {showAdvanced && (
+            <div className="p-4 bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-gray-900/50 dark:to-gray-800/50 rounded-xl border-2 border-blue-200 dark:border-blue-400/30">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-3 mb-3">
+                <div>
+                  <label className="text-xs font-semibold text-gray-700 dark:text-gray-300 mb-1.5 block">Min HP</label>
+                  <Input
+                    type="text"
+                    inputMode="numeric"
+                    placeholder="0"
+                    value={advancedFilters.minHp}
+                    onChange={(e) => setAdvancedFilters(prev => ({ ...prev, minHp: e.target.value }))}
+                    className="h-9 bg-white dark:bg-gray-900 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                  />
+                </div>
+                <div>
+                  <label className="text-xs font-semibold text-gray-700 dark:text-gray-300 mb-1.5 block">Max HP</label>
+                  <Input
+                    type="text"
+                    inputMode="numeric"
+                    placeholder="255"
+                    value={advancedFilters.maxHp}
+                    onChange={(e) => setAdvancedFilters(prev => ({ ...prev, maxHp: e.target.value }))}
+                    className="h-9 bg-white dark:bg-gray-900 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                  />
+                </div>
+                <div>
+                  <label className="text-xs font-semibold text-gray-700 dark:text-gray-300 mb-1.5 block">Min Attack</label>
+                  <Input
+                    type="text"
+                    inputMode="numeric"
+                    placeholder="0"
+                    value={advancedFilters.minAttack}
+                    onChange={(e) => setAdvancedFilters(prev => ({ ...prev, minAttack: e.target.value }))}
+                    className="h-9 bg-white dark:bg-gray-900 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                  />
+                </div>
+                <div>
+                  <label className="text-xs font-semibold text-gray-700 dark:text-gray-300 mb-1.5 block">Max Attack</label>
+                  <Input
+                    type="text"
+                    inputMode="numeric"
+                    placeholder="255"
+                    value={advancedFilters.maxAttack}
+                    onChange={(e) => setAdvancedFilters(prev => ({ ...prev, maxAttack: e.target.value }))}
+                    className="h-9 bg-white dark:bg-gray-900 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                  />
+                </div>
+                <div>
+                  <label className="text-xs font-semibold text-gray-700 dark:text-gray-300 mb-1.5 block">Min Defense</label>
+                  <Input
+                    type="text"
+                    inputMode="numeric"
+                    placeholder="0"
+                    value={advancedFilters.minDefense}
+                    onChange={(e) => setAdvancedFilters(prev => ({ ...prev, minDefense: e.target.value }))}
+                    className="h-9 bg-white dark:bg-gray-900 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                  />
+                </div>
+                <div>
+                  <label className="text-xs font-semibold text-gray-700 dark:text-gray-300 mb-1.5 block">Max Defense</label>
+                  <Input
+                    type="text"
+                    inputMode="numeric"
+                    placeholder="255"
+                    value={advancedFilters.maxDefense}
+                    onChange={(e) => setAdvancedFilters(prev => ({ ...prev, maxDefense: e.target.value }))}
+                    className="h-9 bg-white dark:bg-gray-900 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                  />
+                </div>
+                <div>
+                  <label className="text-xs font-semibold text-gray-700 dark:text-gray-300 mb-1.5 block">Min Speed</label>
+                  <Input
+                    type="text"
+                    inputMode="numeric"
+                    placeholder="0"
+                    value={advancedFilters.minSpeed}
+                    onChange={(e) => setAdvancedFilters(prev => ({ ...prev, minSpeed: e.target.value }))}
+                    className="h-9 bg-white dark:bg-gray-900 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                  />
+                </div>
+                <div>
+                  <label className="text-xs font-semibold text-gray-700 dark:text-gray-300 mb-1.5 block">Max Speed</label>
+                  <Input
+                    type="text"
+                    inputMode="numeric"
+                    placeholder="255"
+                    value={advancedFilters.maxSpeed}
+                    onChange={(e) => setAdvancedFilters(prev => ({ ...prev, maxSpeed: e.target.value }))}
+                    className="h-9 bg-white dark:bg-gray-900 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                  />
+                </div>
+                <div>
+                  <label className="text-xs font-semibold text-gray-700 dark:text-gray-300 mb-1.5 block">Min Power</label>
+                  <Input
+                    type="text"
+                    inputMode="numeric"
+                    placeholder="0"
+                    value={advancedFilters.minPower}
+                    onChange={(e) => setAdvancedFilters(prev => ({ ...prev, minPower: e.target.value }))}
+                    className="h-9 bg-white dark:bg-gray-900 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                  />
+                </div>
+                <div>
+                  <label className="text-xs font-semibold text-gray-700 dark:text-gray-300 mb-1.5 block">Max Power</label>
+                  <Input
+                    type="text"
+                    inputMode="numeric"
+                    placeholder="1000"
+                    value={advancedFilters.maxPower}
+                    onChange={(e) => setAdvancedFilters(prev => ({ ...prev, maxPower: e.target.value }))}
+                    className="h-9 bg-white dark:bg-gray-900 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                  />
+                </div>
+              </div>
+              <div className="flex gap-2 justify-end">
+                <Button 
+                  variant="outline" 
+                  size="sm"
+                  onClick={clearAdvancedFilters}
+                  disabled={!hasAdvancedFilters || isPending}
+                  className="h-8"
+                >
+                  Clear
+                </Button>
+                <Button 
+                  size="sm"
+                  onClick={applyAdvancedFilters}
+                  disabled={isPending}
+                  className="h-8 bg-blue-600 hover:bg-blue-700"
+                >
+                  Apply Filters
+                </Button>
+              </div>
+            </div>
+          )}
         </div>
 
         {isPending && (
@@ -162,10 +368,30 @@ export default function PokemonListClient({ initialPokemon, total, page, totalPa
                       </div>
                     </TableHead>
                     <TableHead className="font-semibold text-gray-700 dark:text-gray-300">Types</TableHead>
-                    <TableHead className="text-center font-semibold text-gray-700 dark:text-gray-300">HP</TableHead>
-                    <TableHead className="text-center font-semibold text-gray-700 dark:text-gray-300">ATK</TableHead>
-                    <TableHead className="text-center font-semibold text-gray-700 dark:text-gray-300">DEF</TableHead>
-                    <TableHead className="text-center font-semibold text-gray-700 dark:text-gray-300">SPD</TableHead>
+                    <TableHead className="cursor-pointer font-semibold text-gray-700 dark:text-gray-300" onClick={() => handleSort('hp')}>
+                      <div className="flex items-center justify-center gap-1">
+                        HP
+                        {currentSort === 'hp' && <ChevronDown className="h-4 w-4" />}
+                      </div>
+                    </TableHead>
+                    <TableHead className="cursor-pointer font-semibold text-gray-700 dark:text-gray-300" onClick={() => handleSort('attack')}>
+                      <div className="flex items-center justify-center gap-1">
+                        ATK
+                        {currentSort === 'attack' && <ChevronDown className="h-4 w-4" />}
+                      </div>
+                    </TableHead>
+                    <TableHead className="cursor-pointer font-semibold text-gray-700 dark:text-gray-300" onClick={() => handleSort('defense')}>
+                      <div className="flex items-center justify-center gap-1">
+                        DEF
+                        {currentSort === 'defense' && <ChevronDown className="h-4 w-4" />}
+                      </div>
+                    </TableHead>
+                    <TableHead className="cursor-pointer font-semibold text-gray-700 dark:text-gray-300" onClick={() => handleSort('speed')}>
+                      <div className="flex items-center justify-center gap-1">
+                        SPD
+                        {currentSort === 'speed' && <ChevronDown className="h-4 w-4" />}
+                      </div>
+                    </TableHead>
                     <TableHead className="cursor-pointer font-semibold text-gray-700 dark:text-gray-300" onClick={() => handleSort('powerScore')}>
                       <div className="flex items-center gap-1">
                         Power
@@ -176,7 +402,7 @@ export default function PokemonListClient({ initialPokemon, total, page, totalPa
                 </TableHeader>
                 <TableBody>
                   {initialPokemon.map((pokemon) => (
-                    <TableRow key={pokemon.id} className="bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors cursor-pointer" onClick={() => router.push(`/pokemon/${pokemon.id}`)}>
+                    <TableRow key={pokemon.id} className="bg-white dark:bg-gray-800 hover:bg-indigo-50 dark:hover:bg-indigo-900/30 transition-all duration-200 cursor-pointer" onClick={() => router.push(`/pokemon/${pokemon.id}`)}>
                       <TableCell>
                         <div className="relative w-12 h-12 rounded-full overflow-hidden bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-700 dark:to-gray-800 p-1">
                           <Image src={pokemon.sprite} alt={pokemon.name} fill className="object-contain" unoptimized />
@@ -204,7 +430,7 @@ export default function PokemonListClient({ initialPokemon, total, page, totalPa
 
             <div className="flex items-center justify-between mt-6 pt-4 border-t border-gray-200 dark:border-blue-400/20">
               <p className="text-sm font-semibold text-gray-700 dark:text-gray-300">
-                Showing {((page - 1) * 20) + 1}-{Math.min(page * 20, total)} of {total} Pokémon
+                Showing {((page - 1) * parseInt(currentLimit)) + 1}-{Math.min(page * parseInt(currentLimit), total)} of {total} Pokémon
               </p>
               
               <div className="flex items-center gap-2">
