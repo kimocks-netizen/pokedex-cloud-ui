@@ -6,6 +6,8 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { AppLayout } from '@/components/layout/AppLayout';
 
+export const dynamic = 'force-dynamic';
+
 export default async function DashboardPage() {
   const statsResponse = await getDashboardStats();
   const stats = isSuccessResponse(statsResponse) ? statsResponse.data : null;

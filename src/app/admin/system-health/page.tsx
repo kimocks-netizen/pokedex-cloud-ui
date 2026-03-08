@@ -5,6 +5,8 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { CheckCircle, XCircle, Database, Activity, Server, Clock, AlertTriangle } from 'lucide-react';
 import { AppLayout } from '@/components/layout/AppLayout';
 
+export const dynamic = 'force-dynamic';
+
 export default async function SystemHealthPage() {
   const [healthResponse, dlqResponse] = await Promise.all([
     getSystemHealth(),

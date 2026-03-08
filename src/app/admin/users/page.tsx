@@ -5,6 +5,8 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { Users, Shield, User, Clock } from 'lucide-react';
 import { AppLayout } from '@/components/layout/AppLayout';
 
+export const dynamic = 'force-dynamic';
+
 export default async function UsersPage() {
   const usersResponse = await getUsers();
   const users = isSuccessResponse(usersResponse) ? usersResponse.data : [];

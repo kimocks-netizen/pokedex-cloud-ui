@@ -6,6 +6,8 @@ import { AlertTriangle, CheckCircle, Clock, XCircle, RefreshCw } from 'lucide-re
 import RetryMessageButton from '@/components/admin/RetryMessageButton';
 import { AppLayout } from '@/components/layout/AppLayout';
 
+export const dynamic = 'force-dynamic';
+
 export default async function DLQPage() {
   const dlqResponse = await getDLQStats();
   const stats = isSuccessResponse(dlqResponse) ? dlqResponse.data : null;

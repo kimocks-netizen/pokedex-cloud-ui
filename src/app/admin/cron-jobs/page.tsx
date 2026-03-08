@@ -7,6 +7,8 @@ import DeleteJobButton from '@/components/admin/DeleteJobButton';
 import ToggleJobButton from '@/components/admin/ToggleJobButton';
 import { AppLayout } from '@/components/layout/AppLayout';
 
+export const dynamic = 'force-dynamic';
+
 const JOB_DESCRIPTIONS: Record<string, string> = {
   'pokemon_ingestion': 'Automatically fetch and ingest Pokemon data from external API',
   'data_cleanup': 'Clean up old or invalid data from the database',

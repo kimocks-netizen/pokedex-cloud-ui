@@ -5,6 +5,8 @@ import { isSuccessResponse } from '@/lib/api-responses';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Clock, CheckCircle, XCircle, Loader2, AlertCircle } from 'lucide-react';
 
+export const dynamic = 'force-dynamic';
+
 export default async function IngestionPage() {
   const jobsResponse = await getIngestionJobs(1, 10);
   const jobs = isSuccessResponse(jobsResponse) && jobsResponse.data ? jobsResponse.data.jobs : [];
