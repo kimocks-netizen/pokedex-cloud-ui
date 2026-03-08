@@ -13,6 +13,7 @@ import {
   Clock, 
   Activity,
   Database,
+  Zap,
 } from 'lucide-react';
 import {
   Sidebar as VSidebar,
@@ -32,6 +33,7 @@ const adminItems = [
   { href: '/admin/dlq', icon: AlertTriangle, label: 'Failed Messages' },
   { href: '/admin/cron-jobs', icon: Clock, label: 'Scheduled Ingestion' },
   { href: '/admin/system-health', icon: Activity, label: 'System Health' },
+  { href: '/performance', icon: Zap, label: 'Performance' },
    { href: '/admin/users', icon: Users, label: 'Users' },
 ];
 
