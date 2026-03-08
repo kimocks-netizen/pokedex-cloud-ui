@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -11,6 +12,7 @@ import { toast } from '@/lib/toast';
 import { Loader2, Play, CheckCircle, XCircle } from 'lucide-react';
 
 export default function IngestionFormClient() {
+  const router = useRouter();
   const [limit, setLimit] = useState('100');
   const [isLoading, setIsLoading] = useState(false);
   const [result, setResult] = useState<{ success: boolean; message: string } | null>(null);
@@ -34,6 +36,7 @@ export default function IngestionFormClient() {
       const jobId = response.data?.jobId;
       setResult({ success: true, message });
       toast.success(message + (jobId ? ` (Job ID: ${jobId.slice(0, 8)}...)` : ''));
+      router.refresh();
     } else {
       setResult({ success: false, message: getErrorMessage(response) });
       toast.error(getErrorMessage(response));

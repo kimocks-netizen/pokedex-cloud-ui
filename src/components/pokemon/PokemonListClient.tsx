@@ -5,11 +5,14 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Search, ChevronLeft, ChevronRight, X, ChevronDown, Filter, SlidersHorizontal } from 'lucide-react';
+import { Search, ChevronLeft, ChevronRight, X, ChevronDown, Filter, SlidersHorizontal, Eye } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog';
 import TypeBadge from './TypeBadge';
 import type { Pokemon } from '@/app/api/actions/pokemon';
+import { getPokemonById } from '@/app/api/actions/pokemon';
+import { isSuccessResponse } from '@/lib/api-responses';
 import Image from 'next/image';
 
 interface PokemonListClientProps {
@@ -25,6 +28,9 @@ export default function PokemonListClient({ initialPokemon, total, page, totalPa
   const searchParams = useSearchParams();
   const [isPending, startTransition] = useTransition();
   const [showAdvanced, setShowAdvanced] = useState(false);
+  const [selectedPokemon, setSelectedPokemon] = useState<Pokemon | null>(null);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [isLoadingDetail, setIsLoadingDetail] = useState(false);
   
   // Local state for advanced filters
   const [advancedFilters, setAdvancedFilters] = useState({
@@ -116,6 +122,17 @@ export default function PokemonListClient({ initialPokemon, total, page, totalPa
 
   const handleSort = (field: string) => {
     updateFilters('sortBy', field);
+  };
+
+  const handleViewPokemon = async (id: number, e: React.MouseEvent) => {
+    e.stopPropagation();
+    setIsLoadingDetail(true);
+    setIsDialogOpen(true);
+    const response = await getPokemonById(id);
+    if (isSuccessResponse(response)) {
+      setSelectedPokemon(response.data!);
+    }
+    setIsLoadingDetail(false);
   };
 
   const hasFilters = searchValue || currentType || currentSort !== 'id' || currentLimit !== '20';
@@ -398,6 +415,7 @@ export default function PokemonListClient({ initialPokemon, total, page, totalPa
                         {currentSort === 'powerScore' && <ChevronDown className="h-4 w-4" />}
                       </div>
                     </TableHead>
+                    <TableHead className="font-semibold text-gray-700 dark:text-gray-300 text-center">Actions</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -405,7 +423,11 @@ export default function PokemonListClient({ initialPokemon, total, page, totalPa
                     <TableRow key={pokemon.id} className="bg-white dark:bg-gray-800 hover:bg-indigo-50 dark:hover:bg-indigo-900/30 transition-all duration-200 cursor-pointer" onClick={() => router.push(`/pokemon/${pokemon.id}`)}>
                       <TableCell>
                         <div className="relative w-12 h-12 rounded-full overflow-hidden bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-700 dark:to-gray-800 p-1">
-                          <Image src={pokemon.sprite} alt={pokemon.name} fill className="object-contain" unoptimized />
+                          {pokemon.sprite ? (
+                            <Image src={pokemon.sprite} alt={pokemon.name} fill className="object-contain" unoptimized />
+                          ) : (
+                            <div className="w-full h-full flex items-center justify-center text-gray-400 text-xs">?</div>
+                          )}
                         </div>
                       </TableCell>
                       <TableCell className="font-bold text-gray-600 dark:text-gray-400">#{pokemon.id.toString().padStart(3, '0')}</TableCell>
@@ -422,6 +444,16 @@ export default function PokemonListClient({ initialPokemon, total, page, totalPa
                       <TableCell className="text-center font-bold text-gray-900 dark:text-white">{pokemon.defense}</TableCell>
                       <TableCell className="text-center font-bold text-gray-900 dark:text-white">{pokemon.speed}</TableCell>
                       <TableCell className="font-bold text-primary text-lg">{pokemon.powerScore}</TableCell>
+                      <TableCell className="text-center">
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={(e) => handleViewPokemon(pokemon.id, e)}
+                          className="rounded-full"
+                        >
+                          <Eye className="h-4 w-4" />
+                        </Button>
+                      </TableCell>
                     </TableRow>
                   ))}
                 </TableBody>
@@ -460,6 +492,119 @@ export default function PokemonListClient({ initialPokemon, total, page, totalPa
           </>
         )}
       </CardContent>
+
+      <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+        <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto bg-white/95 dark:bg-gray-800/95 backdrop-blur-xl">
+          <DialogTitle className="sr-only">Pokémon Details</DialogTitle>
+          {isLoadingDetail ? (
+            <div className="text-center py-12">
+              <div className="inline-block h-10 w-10 animate-spin rounded-full border-4 border-solid border-primary border-r-transparent"></div>
+              <p className="mt-4 text-gray-600 dark:text-gray-400">Loading...</p>
+            </div>
+          ) : selectedPokemon ? (
+            <div>
+              <div className="flex items-center gap-4 mb-6">
+                <div className="relative w-24 h-24 rounded-full overflow-hidden bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-700 dark:to-gray-800 p-2">
+                  {selectedPokemon.sprite ? (
+                    <Image src={selectedPokemon.sprite} alt={selectedPokemon.name} fill className="object-contain" unoptimized />
+                  ) : (
+                    <div className="w-full h-full flex items-center justify-center text-gray-400">?</div>
+                  )}
+                </div>
+                <div className="flex-1">
+                  <div className="flex items-center gap-3 mb-2">
+                    <span className="text-lg font-bold text-gray-500 dark:text-gray-400">#{selectedPokemon.id.toString().padStart(3, '0')}</span>
+                    <h2 className="text-3xl font-bold capitalize text-gray-900 dark:text-white">{selectedPokemon.name}</h2>
+                  </div>
+                  <div className="flex gap-2">
+                    {selectedPokemon.types.map((type) => (
+                      <TypeBadge key={type} type={type} />
+                    ))}
+                  </div>
+                </div>
+                <div className="text-right">
+                  <p className="text-sm text-gray-600 dark:text-gray-400">Power Score</p>
+                  <p className="text-4xl font-bold text-primary">{selectedPokemon.powerScore}</p>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="bg-gray-50 dark:bg-gray-900/50 border-2 border-gray-200 dark:border-gray-700 rounded-xl p-4">
+                  <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-4">Base Stats</h3>
+                  <div className="space-y-4">
+                    <div>
+                      <div className="flex justify-between mb-1">
+                        <span className="text-sm font-medium text-gray-600 dark:text-gray-400">HP</span>
+                        <span className="text-sm font-bold text-gray-900 dark:text-white">{selectedPokemon.hp}</span>
+                      </div>
+                      <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
+                        <div className="bg-red-500 h-2 rounded-full" style={{ width: `${(selectedPokemon.hp / 255) * 100}%` }}></div>
+                      </div>
+                    </div>
+                    <div>
+                      <div className="flex justify-between mb-1">
+                        <span className="text-sm font-medium text-gray-600 dark:text-gray-400">Attack</span>
+                        <span className="text-sm font-bold text-gray-900 dark:text-white">{selectedPokemon.attack}</span>
+                      </div>
+                      <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
+                        <div className="bg-orange-500 h-2 rounded-full" style={{ width: `${(selectedPokemon.attack / 255) * 100}%` }}></div>
+                      </div>
+                    </div>
+                    <div>
+                      <div className="flex justify-between mb-1">
+                        <span className="text-sm font-medium text-gray-600 dark:text-gray-400">Defense</span>
+                        <span className="text-sm font-bold text-gray-900 dark:text-white">{selectedPokemon.defense}</span>
+                      </div>
+                      <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
+                        <div className="bg-blue-500 h-2 rounded-full" style={{ width: `${(selectedPokemon.defense / 255) * 100}%` }}></div>
+                      </div>
+                    </div>
+                    <div>
+                      <div className="flex justify-between mb-1">
+                        <span className="text-sm font-medium text-gray-600 dark:text-gray-400">Speed</span>
+                        <span className="text-sm font-bold text-gray-900 dark:text-white">{selectedPokemon.speed}</span>
+                      </div>
+                      <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
+                        <div className="bg-green-500 h-2 rounded-full" style={{ width: `${(selectedPokemon.speed / 255) * 100}%` }}></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="bg-gray-50 dark:bg-gray-900/50 border-2 border-gray-200 dark:border-gray-700 rounded-xl p-4">
+                  <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-4">Stats Summary</h3>
+                  <div className="space-y-3">
+                    <div className="flex justify-between p-3 bg-white dark:bg-gray-800 rounded-lg">
+                      <span className="text-sm font-medium text-gray-600 dark:text-gray-400">Total Stats</span>
+                      <span className="text-sm font-bold text-gray-900 dark:text-white">
+                        {selectedPokemon.hp + selectedPokemon.attack + selectedPokemon.defense + selectedPokemon.speed}
+                      </span>
+                    </div>
+                    <div className="flex justify-between p-3 bg-white dark:bg-gray-800 rounded-lg">
+                      <span className="text-sm font-medium text-gray-600 dark:text-gray-400">Average Stat</span>
+                      <span className="text-sm font-bold text-gray-900 dark:text-white">
+                        {Math.round((selectedPokemon.hp + selectedPokemon.attack + selectedPokemon.defense + selectedPokemon.speed) / 4)}
+                      </span>
+                    </div>
+                    <div className="flex justify-between p-3 bg-white dark:bg-gray-800 rounded-lg">
+                      <span className="text-sm font-medium text-gray-600 dark:text-gray-400">Highest Stat</span>
+                      <span className="text-sm font-bold text-gray-900 dark:text-white">
+                        {Math.max(selectedPokemon.hp, selectedPokemon.attack, selectedPokemon.defense, selectedPokemon.speed)}
+                      </span>
+                    </div>
+                    <div className="flex justify-between p-3 bg-white dark:bg-gray-800 rounded-lg">
+                      <span className="text-sm font-medium text-gray-600 dark:text-gray-400">Lowest Stat</span>
+                      <span className="text-sm font-bold text-gray-900 dark:text-white">
+                        {Math.min(selectedPokemon.hp, selectedPokemon.attack, selectedPokemon.defense, selectedPokemon.speed)}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          ) : null}
+        </DialogContent>
+      </Dialog>
     </Card>
   );
 }

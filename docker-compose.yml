@@ -1,0 +1,20 @@
+version: '3.8'
+
+services:
+  # Frontend (Next.js)
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: pokedex-frontend
+    environment:
+      - NEXT_PUBLIC_API_URL=https://1o7s4ez9j2.execute-api.af-south-1.amazonaws.com/Prod
+      - API_URL=https://1o7s4ez9j2.execute-api.af-south-1.amazonaws.com/Prod
+      - NEXT_PUBLIC_WEBSOCKET_URL=wss://25j9z0keyc.execute-api.af-south-1.amazonaws.com/dev
+    ports:
+      - "3000:3000"
+    restart: unless-stopped
+
+networks:
+  default:
+    name: pokedex-network

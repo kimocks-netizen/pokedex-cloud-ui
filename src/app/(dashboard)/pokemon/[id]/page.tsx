@@ -59,7 +59,11 @@ export default async function PokemonDetailPage({ params }: PageProps) {
           <CardHeader className="border-b border-gray-200 dark:border-gray-700">
             <div className="flex items-center gap-4">
               <div className="relative w-24 h-24 rounded-full overflow-hidden bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-700 dark:to-gray-800 p-2">
-                <Image src={pokemon.sprite} alt={pokemon.name} fill className="object-contain" unoptimized />
+                {pokemon.sprite ? (
+                  <Image src={pokemon.sprite} alt={pokemon.name} fill className="object-contain" unoptimized />
+                ) : (
+                  <div className="w-full h-full flex items-center justify-center text-gray-400 text-xs">No Image</div>
+                )}
               </div>
               <div className="flex-1">
                 <div className="flex items-center gap-3 mb-2">

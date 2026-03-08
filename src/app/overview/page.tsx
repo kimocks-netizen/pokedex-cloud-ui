@@ -5,6 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { AppLayout } from '@/components/layout/AppLayout';
+import RealtimeIngestionStatus from '@/components/realtime/RealtimeIngestionStatus';
 
 export const dynamic = 'force-dynamic';
 
@@ -78,6 +79,10 @@ export default async function DashboardPage() {
               <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">Currently online</p>
             </CardContent>
           </Card>
+        </div>
+
+        <div className="mb-6">
+          <RealtimeIngestionStatus />
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
